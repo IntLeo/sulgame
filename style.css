@@ -1,47 +1,53 @@
 body {
-    margin: 0;
-    overflow: hidden;
-  }
-  
-  #editor {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-  }
-  
-  #mapa {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-  }
-  
-  .dispositivo {
-    width: 60px;
-    height: 70px;
-    position: absolute;
-    cursor: grab;
-  }
-  
-  .dispositivo img {
-    width: 100%;
-    position: relative;
-    z-index: 2;
-  }
-  
-  .abrangencia {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(78, 194, 233, 0.4); /* azul claro com transparência */
-    border-radius: 50%;
-    z-index: 1;
-    pointer-events: none; /* não interfere no clique */
-  }
-  
+  margin: 0;
+  overflow: hidden;
+}
+
+#mapa {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.dispositivo {
+  width: 60px;
+  height: 70px;
+  position: absolute;
+  cursor: grab;
+}
+
+.dispositivo img {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.abrangencia {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(78, 194, 233, 0.4); /* azul claro com transparência */
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none; /* não interfere no clique */
+}
+
+.planta {
+  position: relative;
+  width: 1000px;
+  height: 1000px;
+}
+.comodo {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  transition: filter 0.3s;
+  filter: grayscale(100%) brightness(0.6);
+}
