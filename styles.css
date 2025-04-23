@@ -1,0 +1,144 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  height: 100vh;
+}
+
+.planta-container {
+  position: relative;
+  width: 1400px;
+}
+
+.planta-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.dispositivo {
+  width: 3%;
+  height: 3%;
+  position: absolute;
+  cursor: grab;
+}
+
+.dispositivo img {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.abrangencia {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  top: 140%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(78, 194, 233, 0.4); /* azul claro com transparência */
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none; /* não interfere no clique */
+}
+
+.filtro-area1 {
+  position: absolute;
+  top: 15.10%;
+  left: 2.75%;
+  width: 28.90%;
+  height: 35.10%;
+  background-color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.filtro-area2 {
+  position: absolute;
+  top: 51.10%;
+  left: 11.45%;
+  width: 20.20%;
+  height: 23.70%;
+  background-color: rgba(21, 255, 0, 0.4);
+  pointer-events: none;
+}
+
+.filtro-area3 {
+  position: absolute;
+  top: 15.10%;
+  left: 32.30%;
+  width: 23.90%;
+  height: 24.10%;
+  background-color: rgba(21, 255, 0, 0.4);
+  pointer-events: none;
+}
+
+.filtro-area4 {
+  position: absolute;
+  top: 39.20%;
+  left: 32.30%;
+  width: 23.90%;
+  height: 35.64%;
+  background-color: rgba(255, 251, 0, 0.4);
+  pointer-events: none;
+}
+
+.filtro-area5 {
+  position: absolute;
+  top: 15.10%;
+  left: 56.80%;
+  width: 10.30%;
+  height: 23.70%;
+  background-color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.filtro-area6 {
+  position: absolute;
+  top: 39.70%;
+  left: 56.20%;
+  width: 21.20%;
+  height: 10.50%;
+  background-color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+}
+.filtro-area7 {
+  position: absolute;
+  top: 51.10%;
+  left: 56.80%;
+  width: 20.60%;
+  height: 33.60%;
+  background-color: rgba(255, 251, 0, 0.4);
+  pointer-events: none;
+}
+.filtro-area8 {
+  position: absolute;
+  top: 11.50%;
+  left: 67.70%;
+  width: 9.70%;
+  height: 27.30%;
+  background-color: rgba(21, 255, 0, 0.4);
+  pointer-events: none;
+}
+.filtro-area9 {
+  position: absolute;
+  top: 25.50%;
+  left: 78.00%;
+  width: 19.00%;
+  height: 13.25%;
+  background-color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+}
+.filtro-area10 {
+  position: absolute;
+  top: 39.70%;
+  left: 78.00%;
+  width: 19.00%;
+  height: 35.70%;
+  background-color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+}
