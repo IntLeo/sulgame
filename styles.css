@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   overflow: hidden;
@@ -10,15 +11,66 @@ body {
   height: 100vh;
 }
 
+.numerador {
+  position: fixed;
+  top: 50px;     
+  left: 75px;
+  color: #ff5e00;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.numerador h1,
+.numerador p {
+  margin: 0;      
+  padding: 0;
+}
+
+.numerador h1 {
+  font-size: 60px;
+  margin-bottom: 0px;  
+}
+
+.numerador p {
+  font-size: 20px;
+
+}
+
+.timerBox {
+  position: fixed;
+  bottom: 7%;
+  left: 10%;
+  color: #ff5e00;
+  font-size: 60px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#btnValidate {
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff6600;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #fff;
+  border: none;
+  padding: 20px 28px;
+  font-size: 25px;
+  border-radius: 7px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
 .planta-container {
   position: relative;
-  width: 1400px;
+  width: 1200px;
 }
 
 .planta-img {
   width: 100%;
   height: auto;
   display: block;
+  pointer-events: none;
 }
 
 .dispositivo {
@@ -36,8 +88,8 @@ body {
 
 .abrangencia {
   position: absolute;
-  width: 550px;
-  height: 550px;
+  width: 420px;
+  height: 420px;
   top: 140%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -46,6 +98,32 @@ body {
   z-index: 1;
   pointer-events: none; /* não interfere no clique */
 }
+
+
+#btnAddDevice {
+  position: fixed;
+  bottom: 7%;
+  right: 10%;
+  width: 75px;
+  height: 75px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ff6600;
+  color: #fff;
+  font-size: 32px;
+  line-height: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+#btnAddDevice:active {
+  transform: scale(0.95);
+}
+
+
+
+/* Filtros */
+
 
 .filtro-area1 {
   position: absolute;
@@ -112,7 +190,8 @@ body {
   left: 56.80%;
   width: 20.60%;
   height: 33.60%;
-  background-color: rgba(255, 251, 0, 0.4);
+  background-color: rgb(255, 255, 255);
+
   pointer-events: none;
 }
 .filtro-area8 {
@@ -121,7 +200,8 @@ body {
   left: 67.70%;
   width: 9.70%;
   height: 27.30%;
-  background-color: rgba(21, 255, 0, 0.4);
+  background-color: rgb(255, 255, 255);
+;
   pointer-events: none;
 }
 .filtro-area9 {
@@ -130,7 +210,8 @@ body {
   left: 78.00%;
   width: 19.00%;
   height: 13.25%;
-  background-color: rgba(255, 0, 0, 0.4);
+  background-color: rgb(255, 255, 255);
+
   pointer-events: none;
 }
 .filtro-area10 {
@@ -139,6 +220,6 @@ body {
   left: 78.00%;
   width: 19.00%;
   height: 35.70%;
-  background-color: rgba(255, 0, 0, 0.4);
+  background-color: rgb(255, 255, 255);
   pointer-events: none;
 }
