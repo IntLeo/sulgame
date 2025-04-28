@@ -1,0 +1,117 @@
+
+
+
+.filtro-area1 {
+    position: absolute;
+    top: 15.10%;
+    left: 2.75%;
+    width: 28.90%;
+    height: 35.10%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .filtro-area1 .area-1{
+    position: absolute;
+    top: 120%;
+    left: 11.45%;
+    width: 10.20%;
+    height: 10.70%;
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+  }
+  .filtro-area1 .area-2 {
+    position: absolute;
+    top: 50%;
+    left: 11.45%;
+    width: 10.20%;
+    height: 10.70%;
+    background-color: rgb(0, 0, 0);
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+  }
+  
+  
+  .filtro-area2 {
+    position: absolute;
+    top: 51.10%;
+    left: 11.45%;
+    width: 20.20%;
+    height: 23.70%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .filtro-area3 {
+    position: absolute;
+    top: 15.10%;
+    left: 32.30%;
+    width: 23.90%;
+    height: 24.10%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .filtro-area4 {
+    position: absolute;
+    top: 39.20%;
+    left: 32.30%;
+    width: 23.90%;
+    height: 35.64%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .filtro-area5 {
+    position: absolute;
+    top: 15.10%;
+    left: 56.80%;
+    width: 10.30%;
+    height: 23.70%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .filtro-area6 {
+    position: absolute;
+    top: 39.70%;
+    left: 56.20%;
+    width: 21.20%;
+    height: 10.50%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .filtro-area7 {
+    position: absolute;
+    top: 51.10%;
+    left: 56.80%;
+    width: 20.60%;
+    height: 33.60%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .filtro-area8 {
+    position: absolute;
+    top: 11.50%;
+    left: 67.70%;
+    width: 9.70%;
+    height: 27.30%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .filtro-area9 {
+    position: absolute;
+    top: 25.50%;
+    left: 78.00%;
+    width: 19.00%;
+    height: 13.25%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .filtro-area10 {
+    position: absolute;
+    top: 39.70%;
+    left: 78.00%;
+    width: 19.00%;
+    height: 35.70%;
+    background-color: rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+  }
