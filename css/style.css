@@ -4,6 +4,14 @@ body {
   overflow: hidden;
 }
 
+html, body {
+  touch-action: none; /* impede zoom, rolagem e gestos */
+  -ms-touch-action: none;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+
 .container {
   display: flex;
   justify-content: center; 
@@ -17,6 +25,7 @@ body {
   left: 75px;
   color: #ff5e00;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  z-index: 1;
 }
 
 .numerador h1,
@@ -64,7 +73,7 @@ body {
 .planta-container {
   position: relative;
   width: 100%;
-  max-width: 1200px; 
+  max-width: 800px; 
   margin: 0 auto;
 }
 .filtro-area {
@@ -94,8 +103,8 @@ body {
 
 .abrangencia {
   position: absolute;
-  width: 520px;
-  height: 520px;
+  width: 400px;
+  height: 400px;
   top: 140%;
   left: 50%;
   transform: translate(-50%, -50%);

@@ -1,80 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title>Início do Jogo</title>
+
     <style>
-        /* Resetando o margin e padding para evitar interferência */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Poppins', sans-serif;
-        }
+      /* Resetando o margin e padding para evitar interferência */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Poppins", sans-serif;
+        touch-action: none; /* impede zoom, rolagem e gestos */
+        -ms-touch-action: none;
+        overscroll-behavior: none;
+        user-select: none;
+      }
 
-        /* Centralizando tudo na tela */
-        body {
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
+      /* Centralizando tudo na tela */
+      body {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
 
-        .inicio-container {
-            background: #fff;
-            padding: 50px 80px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 500px; /* Para a tela não ficar muito larga */
-        }
+      .inicio-container {
+        background: #fff;
+        padding: 50px 80px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 90%;
+        max-width: 450px; /* Para a tela não ficar muito larga */
+      }
 
-        h1 {
-            color: #ff5100; /* Cor laranja para o título */
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
+      h1 {
+        color: #ff5100; /* Cor laranja para o título */
+        font-size: 2.5em;
+        margin-bottom: 15px;
+      }
 
-        p {
-            font-size: 1.2em;
-            color: #333;
-            margin-bottom: 20px;
-        }
+      p {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 20px;
+      }
 
-        /* Estilo do botão */
-        .btn-iniciar {
-            text-decoration: none;
-            display: inline-block;
-            background-color: #ff5100;
-            color: #fff;
-            padding: 12px 30px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
+      /* Estilo do botão */
+      .btn-iniciar {
+        text-decoration: none;
+        display: inline-block;
+        background-color: #ff5100;
+        color: #fff;
+        padding: 12px 30px;
+        font-size: 1.2em;
+        border-radius: 5px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
 
-        .btn-iniciar:hover {
-            background-color: #ff5100e5; /* Alterei para garantir uma cor de hover mais suave */
-            transform: scale(1.1); /* Aumenta um pouco o botão quando interage */
-        }
-
+      .btn-iniciar:hover {
+        background-color: #ff5100e5; /* Alterei para garantir uma cor de hover mais suave */
+        transform: scale(1.1); /* Aumenta um pouco o botão quando interage */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="inicio-container">
-        <h1>Bem-vindo ao SulGame!</h1>
-        <p>Está pronto para o desafio? 🏡<br>
-          Use os roteadores disponíveis para posicioná-los nos melhores pontos e criar um lar totalmente conectado! 💡<br>
-          Se você cumprir o tempo estipulado, quem sabe não ganhe um prêmio? 🏆</p>
-          
+      <h1>Bem-vindo ao SulGame!</h1>
+      <p>
+        Está pronto para o desafio? 🏡<br />
+        Use os roteadores disponíveis para posicioná-los nos melhores pontos e
+        criar um lar totalmente conectado! 💡<br />
+        Se você cumprir o tempo estipulado, quem sabe não ganhe um prêmio? 🏆
+      </p>
 
-        <!-- Botão para iniciar -->
-        <a href="jogo.html" class="btn-iniciar">Começar Jogo</a>
+      <!-- Botão para iniciar -->
+      <a href="jogo.html" class="btn-iniciar">Começar Jogo</a>
     </div>
-</body>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+  </body>
 </html>

@@ -103,7 +103,7 @@ const mapas = [
   {
     nome: "Nível 2",
     subnome: "100m² - 120m²",
-    dificuldadeRaio: 445,
+    dificuldadeRaio: 440,
     dificuldadeTempo: 25,
     imagem: "../img/nivel-2/mapa-1.svg",
     areas: [
@@ -211,7 +211,7 @@ const mapas = [
   {
     nome: "Nível 3",
     subnome: "120m² - 170m²",
-    dificuldadeRaio: 445,
+    dificuldadeRaio: 440,
     dificuldadeTempo: 30,
     imagem: "../img/nivel-3/mapa-1.svg",
     areas: [
@@ -554,21 +554,23 @@ function mostrarNotificacao(greenCount, total) {
     gameStarted = false; 
     if (nivelAtual >= mapas.length) {
       window.location.href = "parabens.html";
-    }
+    }else{
 
-    notification.style.background = "#4caf50";
-    notification.innerHTML =
-      " <h2>🎉 Fase Concluída! 🎉</h2> <p>Parabéns! Você completou esta fase!</p>";
-    notification.classList.add("show");
-
-    setTimeout(() => {
-      notification.classList.remove("show");
-      const dispositivos = document.querySelectorAll(".dispositivo");
-      dispositivos.forEach((disp) => disp.remove());
-
-        carregarMapa(mapas[nivelAtual]);
       
-    }, 3000);
+      notification.style.background = "#4caf50";
+      notification.innerHTML =
+      ` <h2>🎉 Nível Concluído! 🎉</h2> <p>Parabéns! Você completou o ${nivelAtual}º Nível!</p>`;
+      notification.classList.add("show");
+      
+      setTimeout(() => {
+        notification.classList.remove("show");
+        const dispositivos = document.querySelectorAll(".dispositivo");
+        dispositivos.forEach((disp) => disp.remove());
+        
+        carregarMapa(mapas[nivelAtual]);
+        
+      }, 3000);
+    };
   } else {
     if (timeLeft <= 0) {
       notification.style.background = "#ff0000cc";
@@ -583,7 +585,7 @@ function mostrarNotificacao(greenCount, total) {
     } else {
       notification.style.background = "#ecdd02cc";
       notification.innerHTML =
-        " <h2>⚠️ Fase Incompleta! ⚠️</h2> <p>Continue a tentativa ainda há tempo!</p>";
+        ` <h2>⚠️ Nível ${nivelAtual+1} Incompleto! ⚠️</h2> <p>Continue a tentativa ainda há ${timeLeft} segundos!</p>`;
       notification.classList.add("show");
       setTimeout(() => {
         notification.classList.remove("show");
@@ -591,3 +593,6 @@ function mostrarNotificacao(greenCount, total) {
     }
   }
 }
+
+
+document.addEventListener('contextmenu', event => event.preventDefault());
