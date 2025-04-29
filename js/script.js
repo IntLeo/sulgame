@@ -509,8 +509,8 @@ function addDevice() {
   const count = existingCount + 1;
   const disp = document.createElement("div");
   disp.classList.add("dispositivo");
-  disp.style.left = "80%";
-  disp.style.top = "80%";
+  disp.style.left = "50%";
+  disp.style.top = "50%";
 
   const abrang = document.createElement("div");
   abrang.classList.add("abrangencia");
