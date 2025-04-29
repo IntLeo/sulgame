@@ -13,7 +13,7 @@ let limite_roteador = 0;
 
 const mapas = [
   {
-    nome: "Nivel 1",
+    nome: "Nível 1",
     subnome: "80m² - 100m²",
     dificuldadeRaio: 447,
     dificuldadeTempo: 10,
@@ -101,7 +101,7 @@ const mapas = [
     roteadores: 2,
   },
   {
-    nome: "Nivel 2",
+    nome: "Nível 2",
     subnome: "100m² - 120m²",
     dificuldadeRaio: 445,
     dificuldadeTempo: 12,
@@ -209,7 +209,7 @@ const mapas = [
     roteadores: 2,
   },
   {
-    nome: "Nivel 3",
+    nome: "Nível 3",
     subnome: "120m² - 170m²",
     dificuldadeRaio: 445,
     dificuldadeTempo: 15,
@@ -218,7 +218,7 @@ const mapas = [
       {
         nome: "festeiro",
         top: "1.4%",
-        left: "0.9%",
+        left: "0.85%",
         width: "26.95%",
         height: "38.1%",
       },
@@ -232,14 +232,14 @@ const mapas = [
       {
         nome: "sala",
         top: "1.3%",
-        left: "64.6%",
+        left: "64.65%",
         width: "19%",
         height: "38.1%",
       },
       {
         nome: "sala-recorte",
         top: "26.7%",
-        left: "83.6%",
+        left: "83.65%",
         width: "11.1%",
         height: "12.8%",
       },
@@ -253,8 +253,8 @@ const mapas = [
       {
         nome: "lavanderia",
         top: "40.9%",
-        left: "0.9%",
-        width: "8.3%",
+        left: "0.85%",
+        width: "8.37%",
         height: "43.2%",
       },
       {
@@ -267,7 +267,7 @@ const mapas = [
       {
         nome: "quarto_1",
         top: "40.9%",
-        left: "18.3%",
+        left: "18.2%",
         width: "16%",
         height: "43.2%",
       },
@@ -275,7 +275,7 @@ const mapas = [
         nome: "quarto_1-recorte2",
         top: "40.9%",
         left: "34.2%",
-        width: "4.3%",
+        width: "4.35%",
         height: "9%",
       },
       {
@@ -289,7 +289,7 @@ const mapas = [
         nome: "corredor",
         top: "40.9%",
         left: "39.4%",
-        width: "18.6%",
+        width: "18.7%",
         height: "9%",
       },
       {
@@ -302,12 +302,12 @@ const mapas = [
       {
         nome: "banheiro_2",
         top: "51.1%",
-        left: "50.8%",
+        left: "50.85%",
         width: "7.3%",
         height: "33%",
       },
       {
-        nome: "banheiro_2",
+        nome: "quarto_3",
         top: "40.9%",
         left: "58.9%",
         width: "15.3%",
@@ -467,17 +467,16 @@ function atualizarContadorRoteadores() {
   const container = document.querySelector(".editor");
   const existingCount = container.querySelectorAll(".dispositivo").length;
   const roteadoresDisponiveis = limite_roteador - existingCount;
-  console.log(roteadoresDisponiveis);
-
-  const roteadorSpan = document.getElementById("roteadoresDisponiveis");
-  if (roteadorSpan) {
-    roteadorSpan.textContent = `${roteadoresDisponiveis}`;
-  }
+  const limite_roteador_tela = document.getElementById("roteadores-tela");
+  limite_roteador_tela.innerHTML = roteadoresDisponiveis;
 }
 
 function addDevice() {
   const container = document.querySelector(".editor");
   const existingCount = container.querySelectorAll(".dispositivo").length;
+  if (existingCount >= limite_roteador) {
+    return;
+  }
 
   const count = existingCount + 1;
   const disp = document.createElement("div");
@@ -497,7 +496,7 @@ function addDevice() {
   container.appendChild(disp);
   enableDrag(disp);
   atualizarCoberturaGlobal();
-  atualizarContadorRoteadores(); // <<< atualiza contador aqui também
+  atualizarContadorRoteadores(); 
 }
 
 
@@ -522,8 +521,13 @@ function mostrarNotificacao(greenCount, total) {
   const notification = document.getElementById("notification");
 
   if (greenCount === total) {
-    clearInterval(timerInterval); // <<< PARA O TIMER NA HORA!
-    gameStarted = false; // <<< Também já diz que o jogo parou, pra prevenir doidoideira
+    clearInterval(timerInterval);
+    nivelAtual++;
+    gameStarted = false; 
+    if (nivelAtual >= mapas.length) {
+      window.location.href = "parabens.html";
+    }
+
     notification.style.background = "#4caf50";
     notification.innerHTML =
       " <h2>🎉 Fase Concluída! 🎉</h2> <p>Parabéns! Você completou esta fase!</p>";
@@ -531,15 +535,11 @@ function mostrarNotificacao(greenCount, total) {
 
     setTimeout(() => {
       notification.classList.remove("show");
-      nivelAtual++;
       const dispositivos = document.querySelectorAll(".dispositivo");
       dispositivos.forEach((disp) => disp.remove());
 
-      if (nivelAtual >= mapas.length) {
-        window.location.href = "parabens.html";
-      } else {
         carregarMapa(mapas[nivelAtual]);
-      }
+      
     }, 3000);
   } else {
     if (timeLeft <= 0) {
