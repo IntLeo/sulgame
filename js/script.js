@@ -478,10 +478,6 @@ function atualizarContadorRoteadores() {
 function addDevice() {
   const container = document.querySelector(".editor");
   const existingCount = container.querySelectorAll(".dispositivo").length;
-  if (existingCount >= limite_roteador) {
-    alert(`Limite de ${limite_roteador} dispositivos atingido.`);
-    return;
-  }
 
   const count = existingCount + 1;
   const disp = document.createElement("div");

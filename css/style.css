@@ -13,7 +13,7 @@ body {
 
 .numerador {
   position: fixed;
-  top: 50px;     
+  top: 20px;     
   left: 75px;
   color: #ff5e00;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -108,7 +108,7 @@ body {
 
 #btnAddDevice {
   position: fixed;
-  bottom: 7%;
+  bottom: 5%;
   right: 10%;
   width: 75px;
   height: 75px;

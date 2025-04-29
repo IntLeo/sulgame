@@ -44,7 +44,10 @@ body {
 
 /* QR code */
 .qr-code {
-  margin: 20px 0;
+  margin-top: 40px;
+  display: block;
+  pointer-events: none;
+
 }
 
 .logo img {
@@ -55,7 +58,7 @@ body {
 
 /* Efeito hover pra parecer mais interativo */
 .logo img:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 
 }
 
