@@ -31,7 +31,7 @@ body {
 }
 
 .numerador p {
-  font-size: 20px;
+  font-size: 30px;
 
 }
 
@@ -69,7 +69,7 @@ body {
 }
 .filtro-area {
   position: absolute;
-  background-color: rgba(255, 0, 0, 0.2); /* só para visualização */
+  background-color: rgba(128, 128, 128, 0.4);
   cursor: pointer;
 }
 .planta-img {
@@ -88,14 +88,14 @@ body {
 
 .dispositivo img {
   width: 100%;
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
 
 .abrangencia {
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 520px;
+  height: 520px;
   top: 140%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -113,7 +113,7 @@ body {
   width: 75px;
   height: 75px;
   border: none;
-  border-radius: 50%;
+  border-radius: 30%;
   background-color: #ff6600;
   color: #fff;
   font-size: 32px;
@@ -122,6 +122,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   z-index: 1000;
 }
+
 #btnAddDevice:active {
   transform: scale(0.95);
 }
