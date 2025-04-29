@@ -16,7 +16,7 @@ const mapas = [
     nome: "Nível 1",
     subnome: "80m² - 100m²",
     dificuldadeRaio: 447,
-    dificuldadeTempo: 10,
+    dificuldadeTempo: 25,
     imagem: "../img/nivel-1/mapa-1.svg",
     areas: [
       {
@@ -104,7 +104,7 @@ const mapas = [
     nome: "Nível 2",
     subnome: "100m² - 120m²",
     dificuldadeRaio: 445,
-    dificuldadeTempo: 12,
+    dificuldadeTempo: 25,
     imagem: "../img/nivel-2/mapa-1.svg",
     areas: [
       {
@@ -212,7 +212,7 @@ const mapas = [
     nome: "Nível 3",
     subnome: "120m² - 170m²",
     dificuldadeRaio: 445,
-    dificuldadeTempo: 15,
+    dificuldadeTempo: 30,
     imagem: "../img/nivel-3/mapa-1.svg",
     areas: [
       {
@@ -361,32 +361,60 @@ function carregarMapa(mapa) {
 }
 
 function enableDrag(dispositivo) {
-  dispositivo.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    if (!gameStarted) startTimer();
-    const rect = dispositivo.getBoundingClientRect();
-    const shiftX = e.clientX - rect.left;
-    const shiftY = e.clientY - rect.top;
-
-    function moveAt(pageX, pageY) {
-      dispositivo.style.left = pageX - shiftX + "px";
-      dispositivo.style.top = pageY - shiftY + "px";
+  function startDrag(pageX, pageY, shiftX, shiftY) {
+    function moveAt(x, y) {
+      dispositivo.style.left = x - shiftX + "px";
+      dispositivo.style.top = y - shiftY + "px";
       atualizarCoberturaGlobal();
     }
 
     function onMouseMove(ev) {
       moveAt(ev.pageX, ev.pageY);
     }
-    document.addEventListener("mousemove", onMouseMove);
 
-    document.addEventListener("mouseup", function onMouseUp() {
+    function onTouchMove(ev) {
+      if (ev.touches.length > 0) {
+        moveAt(ev.touches[0].pageX, ev.touches[0].pageY);
+      }
+    }
+
+    function stopDrag() {
       document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    });
+      document.removeEventListener("mouseup", stopDrag);
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("touchend", stopDrag);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", stopDrag);
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
+    document.addEventListener("touchend", stopDrag);
+  }
+
+  dispositivo.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    if (!gameStarted) startTimer();
+    const rect = dispositivo.getBoundingClientRect();
+    const shiftX = e.clientX - rect.left;
+    const shiftY = e.clientY - rect.top;
+    startDrag(e.pageX, e.pageY, shiftX, shiftY);
   });
+
+  dispositivo.addEventListener("touchstart", (e) => {
+    if (!gameStarted) startTimer();
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const rect = dispositivo.getBoundingClientRect();
+      const shiftX = touch.clientX - rect.left;
+      const shiftY = touch.clientY - rect.top;
+      startDrag(touch.pageX, touch.pageY, shiftX, shiftY);
+      e.preventDefault(); // impede rolagem durante o arrasto
+    }
+  }, { passive: false });
 
   dispositivo.ondragstart = () => false;
 }
+
 
 function startTimer() {
   gameStarted = true;
