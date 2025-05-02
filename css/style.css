@@ -82,7 +82,7 @@ html, body {
   cursor: pointer;
 }
 .planta-img {
-  width: 100%;
+  width:100%;
   height: auto;
   display: block;
   pointer-events: none;

@@ -2,11 +2,11 @@
 import { mapas } from './mapas.js';
 
 const mapasPorNivel = {
-  1: 4,
+  1: 2,
   2: 4,
   3: 4,
   4: 4,
-  //5: 3,
+  5: 3
 };
 
 const RAIO_FORTE_FACTOR = 0.55; //(verde)
@@ -18,7 +18,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 2;
+let nivelAtual = 3;
 let mapaAtual = null;
 let limite_roteador = 0;
 
@@ -50,6 +50,7 @@ function carregarMapa(mapa) {
 
   RAIO_REFERENCIA_FIXO = mapa.dificuldadeRaio;
 
+  document.querySelector('.planta-container').style.maxWidth = mapa.tamanho;
 
 
   timeLeft = mapa.dificuldadeTempo;
@@ -138,14 +139,22 @@ function atualizarCoberturaGlobal() {
   const filtros = document.querySelectorAll(".filtro-area");
   const dispositivos = document.querySelectorAll(".dispositivo");
 
-  const grupoDistancias = {}; // Novo: armazenar menor distância por grupo
+  const grupoDistancias = {};         // Armazena menor distância por grupo
+  const grupoElementos = {};          // Armazena os elementos de cada grupo
 
   filtros.forEach((filtro) => {
     const fr = filtro.getBoundingClientRect();
     const cx = fr.left + fr.width / 2;
     const cy = fr.top + fr.height / 2;
-    const nomeGrupo = filtro.dataset.nome.split("-")[0]; // Pega o nome base do grupo
+    const nomeGrupo = filtro.dataset.nome.split("-")[0];
 
+    // Armazena os elementos por grupo
+    if (!grupoElementos[nomeGrupo]) {
+      grupoElementos[nomeGrupo] = [];
+    }
+    grupoElementos[nomeGrupo].push(filtro);
+
+    // Calcula a menor distância desse filtro a um dispositivo
     let menorDist = Infinity;
     dispositivos.forEach((d) => {
       const dr = d.getBoundingClientRect();
@@ -155,27 +164,32 @@ function atualizarCoberturaGlobal() {
       if (dist < menorDist) menorDist = dist;
     });
 
-    if (
-      !(nomeGrupo in grupoDistancias) ||
-      menorDist < grupoDistancias[nomeGrupo]
-    ) {
+    // Atualiza a menor distância do grupo
+    if (!(nomeGrupo in grupoDistancias) || menorDist < grupoDistancias[nomeGrupo]) {
       grupoDistancias[nomeGrupo] = menorDist;
     }
   });
 
-  filtros.forEach((filtro) => {
-    const nomeGrupo = filtro.dataset.nome.split("-")[0];
+  // Aplica a cor a todos os pedaços de cada grupo com base na menor distância do grupo
+  Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
     const menorDist = grupoDistancias[nomeGrupo];
 
+    let cor;
     if (menorDist <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
-      filtro.style.backgroundColor = "rgba(0,255,0,0.4)"; // Verde
+      cor = "rgba(0,255,0,0.4)"; // Verde
     } else if (menorDist <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
-      filtro.style.backgroundColor = "rgba(255,255,0,0.4)"; // Amarelo
+      cor = "rgba(255,255,0,0.4)"; // Amarelo
     } else {
-      filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Vermelho
+      cor = "rgba(255,0,0,0.4)"; // Vermelho
     }
+
+    // Aplica a cor a todos os filtros do grupo
+    elementos.forEach((filtro) => {
+      filtro.style.backgroundColor = cor;
+    });
   });
 }
+
 
 function validateAll() {
   const filtros = document.querySelectorAll(".filtro-area");
@@ -231,8 +245,10 @@ function addDevice() {
   enableDrag(disp);
   atualizarCoberturaGlobal();
   atualizarContadorRoteadores(); 
-}
+} 
 
+
+  
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -243,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".dispositivo").forEach(enableDrag);
 
   document.getElementById("btnAddDevice").addEventListener("click", addDevice);
+
 
   const validateBtn = document.getElementById("btnValidate");
   if (validateBtn) validateBtn.addEventListener("click", validateAll);
