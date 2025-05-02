@@ -1,19 +1,30 @@
-// Fatores para cobertura
-  import { mapas } from './mapas.js';
+
+import { mapas } from './mapas.js';
+
+const mapasPorNivel = {
+  1: 4,
+  2: 4,
+  3: 4,
+  4: 4,
+  //5: 3,
+};
 
 const RAIO_FORTE_FACTOR = 0.55; //(verde)
 const RAIO_FRACO_FACTOR = 0.85; //(amarelo)
-let RAIO_REFERENCIA_FIXO = 0; // criação da variavel, cada mapa retorna um valor diferente
+let RAIO_REFERENCIA_FIXO = 0; 
 
-let timeLeft = 0; // inicializa a variavel
+let timeLeft = 0; 
 let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 0;
+let nivelAtual = 2;
+let mapaAtual = null;
 let limite_roteador = 0;
 
 function carregarMapa(mapa) {
+  mapaAtual = mapa;
+
   const plantaContainer = document.querySelector(".planta-container");
 
   let html = `<img src="${mapa.imagem}" class="planta-img" />`;
@@ -38,6 +49,8 @@ function carregarMapa(mapa) {
   nivelHtml.innerHTML = `<h1>${mapa.nome}</h1><p>${mapa.subnome}</p>`;
 
   RAIO_REFERENCIA_FIXO = mapa.dificuldadeRaio;
+
+
 
   timeLeft = mapa.dificuldadeTempo;
   const timerBoxx = document.getElementById("timerBox");
@@ -202,12 +215,17 @@ function addDevice() {
 
   const abrang = document.createElement("div");
   abrang.classList.add("abrangencia");
+  
+  if (mapaAtual?.abrangencia) {
+    atualizarAbrangencia(abrang, mapaAtual.abrangencia.width, mapaAtual.abrangencia.height);
+  }
   disp.appendChild(abrang);
 
   const img = document.createElement("img");
   img.src = "../img/anexo/roteador.png";
   img.alt = `Roteador-${count}`;
   disp.appendChild(img);
+
 
   container.appendChild(disp);
   enableDrag(disp);
@@ -217,8 +235,8 @@ function addDevice() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  carregarMapa(mapas[nivelAtual]);
-  
+
+  sortearMapa(nivelAtual);
 
   timerBox = document.getElementById("timerBox");
 
@@ -238,12 +256,11 @@ function mostrarNotificacao(greenCount, total) {
 
   if (greenCount === total) {
     clearInterval(timerInterval);
-    nivelAtual++;
     gameStarted = false; 
-    if (nivelAtual >= mapas.length) {
+    if (nivelAtual >= 4) {
+      
       window.location.href = "parabens.html";
     }else{
-
       
       notification.style.background = "#4caf50";
       notification.innerHTML =
@@ -254,8 +271,8 @@ function mostrarNotificacao(greenCount, total) {
         notification.classList.remove("show");
         const dispositivos = document.querySelectorAll(".dispositivo");
         dispositivos.forEach((disp) => disp.remove());
-        
-        carregarMapa(mapas[nivelAtual]);
+        nivelAtual++;
+        sortearMapa(nivelAtual);
         
       }, 3000);
     };
@@ -273,7 +290,7 @@ function mostrarNotificacao(greenCount, total) {
     } else {
       notification.style.background = "#ecdd02cc";
       notification.innerHTML =
-        ` <h2>⚠️ Nível ${nivelAtual+1} Incompleto! ⚠️</h2> <p>Continue a tentativa ainda há ${timeLeft} segundos!</p>`;
+        ` <h2>⚠️ Nível ${nivelAtual} Incompleto! ⚠️</h2> <p>Continue a tentativa ainda há ${timeLeft} segundos!</p>`;
       notification.classList.add("show");
       setTimeout(() => {
         notification.classList.remove("show");
@@ -282,5 +299,23 @@ function mostrarNotificacao(greenCount, total) {
   }
 }
 
+function sortearMapa(numeroNivel) {
+  const chaveNivel = `nivel-${numeroNivel}`;
+  const mapasDoNivel = mapas[chaveNivel];
 
+  if (!mapasDoNivel || mapasDoNivel.length === 0) {
+    console.warn(`Nenhum mapa encontrado para o nível ${numeroNivel}`);
+    return;
+  }
+
+  const mapaSorteado = mapasDoNivel[Math.floor(Math.random() * mapasDoNivel.length)];
+  console.log(mapaSorteado);
+  carregarMapa(mapaSorteado);
+}
+
+function atualizarAbrangencia(elemento, width, height) {
+  if (!elemento) return;
+  elemento.style.width = width;
+  elemento.style.height = height;
+}
 document.addEventListener('contextmenu', event => event.preventDefault());
