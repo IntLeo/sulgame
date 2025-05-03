@@ -2,7 +2,7 @@
 import { mapas } from './mapas.js';
 
 const mapasPorNivel = {
-  1: 2,
+  1: 4,
   2: 4,
   3: 4,
   4: 4,
@@ -18,7 +18,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 3;
+let nivelAtual = 2;
 let mapaAtual = null;
 let limite_roteador = 0;
 
@@ -59,6 +59,7 @@ function carregarMapa(mapa) {
 
   limite_roteador = mapa.roteadores;
   atualizarContadorRoteadores(); 
+  atualizarCoberturaGlobal(); 
 
 }
 
@@ -132,65 +133,75 @@ function startTimer() {
   }, 1000);
 }
 
-/**
- * Recalcula a cor de cada filtro com base no dispositivo mais próximo e atualiza score
- */
+
 function atualizarCoberturaGlobal() {
-  const filtros = document.querySelectorAll(".filtro-area");
-  const dispositivos = document.querySelectorAll(".dispositivo");
-
-  const grupoDistancias = {};         // Armazena menor distância por grupo
-  const grupoElementos = {};          // Armazena os elementos de cada grupo
-
-  filtros.forEach((filtro) => {
-    const fr = filtro.getBoundingClientRect();
-    const cx = fr.left + fr.width / 2;
-    const cy = fr.top + fr.height / 2;
-    const nomeGrupo = filtro.dataset.nome.split("-")[0];
-
-    // Armazena os elementos por grupo
-    if (!grupoElementos[nomeGrupo]) {
-      grupoElementos[nomeGrupo] = [];
-    }
-    grupoElementos[nomeGrupo].push(filtro);
-
-    // Calcula a menor distância desse filtro a um dispositivo
-    let menorDist = Infinity;
-    dispositivos.forEach((d) => {
-      const dr = d.getBoundingClientRect();
-      const dx = dr.left + dr.width / 2 - cx;
-      const dy = dr.top + dr.height / 2 - cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist < menorDist) menorDist = dist;
+    const filtros = document.querySelectorAll(".filtro-area");
+    const dispositivos = document.querySelectorAll(".dispositivo");
+  
+    const grupoSomaDistancia = {};   
+    const grupoSomaArea = {};        
+    const grupoElementos = {};       
+  
+    // Forçar todos os filtros a começarem com a cor vermelha
+    filtros.forEach((filtro) => {
+      filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
     });
-
-    // Atualiza a menor distância do grupo
-    if (!(nomeGrupo in grupoDistancias) || menorDist < grupoDistancias[nomeGrupo]) {
-      grupoDistancias[nomeGrupo] = menorDist;
-    }
-  });
-
-  // Aplica a cor a todos os pedaços de cada grupo com base na menor distância do grupo
-  Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
-    const menorDist = grupoDistancias[nomeGrupo];
-
-    let cor;
-    if (menorDist <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
-      cor = "rgba(0,255,0,0.4)"; // Verde
-    } else if (menorDist <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
-      cor = "rgba(255,255,0,0.4)"; // Amarelo
-    } else {
-      cor = "rgba(255,0,0,0.4)"; // Vermelho
-    }
-
-    // Aplica a cor a todos os filtros do grupo
-    elementos.forEach((filtro) => {
-      filtro.style.backgroundColor = cor;
+  
+    filtros.forEach((filtro) => {
+      const fr = filtro.getBoundingClientRect();
+      const cx = fr.left + fr.width / 2;
+      const cy = fr.top + fr.height / 2;
+      const nomeGrupo = filtro.dataset.nome.split("-")[0];
+  
+      const area = fr.width * fr.height;
+  
+      // Calcula menor distância até um dispositivo
+      let menorDist = Infinity;
+      dispositivos.forEach((d) => {
+        const dr = d.getBoundingClientRect();
+        const dx = dr.left + dr.width / 2 - cx;
+        const dy = dr.top + dr.height / 2 - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < menorDist) menorDist = dist;
+      });
+  
+      // Inicializa estruturas de agrupamento se necessário
+      if (!grupoSomaDistancia[nomeGrupo]) {
+        grupoSomaDistancia[nomeGrupo] = 0;
+        grupoSomaArea[nomeGrupo] = 0;
+        grupoElementos[nomeGrupo] = [];
+      }
+  
+      // Soma ponderada
+      grupoSomaDistancia[nomeGrupo] += menorDist * area;
+      grupoSomaArea[nomeGrupo] += area;
+      grupoElementos[nomeGrupo].push(filtro);
     });
-  });
-}
+  
+    // Aplica cor por grupo com base na média ponderada
+    Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+      const somaDist = grupoSomaDistancia[nomeGrupo];
+      const somaArea = grupoSomaArea[nomeGrupo];
+      const mediaDistPonderada = somaDist / somaArea;
+  
+      let cor;
+      if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(0,255,0,0.4)"; // Verde
+      } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(255,255,0,0.4)"; // Amarelo
+      } else {
+        cor = "rgba(255,0,0,0.4)"; // Vermelho
+      }
+  
+      // Aplica a cor no grupo de filtros
+      elementos.forEach((filtro) => {
+        filtro.style.backgroundColor = cor;
+      });
+    });
+  }  
 
 
+    
 function validateAll() {
   const filtros = document.querySelectorAll(".filtro-area");
   const total = filtros.length;
@@ -274,7 +285,7 @@ function mostrarNotificacao(greenCount, total) {
   if (greenCount === total) {
     clearInterval(timerInterval);
     gameStarted = false; 
-    if (nivelAtual >= 4) {
+    if (nivelAtual >= 5) {
       
       window.location.href = "parabens.html";
     }else{
@@ -335,4 +346,6 @@ function atualizarAbrangencia(elemento, width, height) {
   elemento.style.width = width;
   elemento.style.height = height;
 }
+
+
 document.addEventListener('contextmenu', event => event.preventDefault());

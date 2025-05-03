@@ -1,60 +1,123 @@
-// Fatores para cobertura
-const RAIO_FORTE_FACTOR = 0.55; // <= 55% do raio → sinal forte (verde)
-const RAIO_FRACO_FACTOR = 0.85; // <= 85% do raio → sinal fraco (amarelo)
-const RAIO_REFERENCIA_FIXO = 370; // pixels, alcance fixo de cobertura
 
-// Estado de jogo
-let timeLeft = 10; // segundos
+import { mapas } from './mapas.js';
+
+const mapasPorNivel = {
+  1: 4,
+  2: 4,
+  3: 4,
+  4: 4,
+  5: 3
+};
+
+const RAIO_FORTE_FACTOR = 0.55; //(verde)
+const RAIO_FRACO_FACTOR = 0.85; //(amarelo)
+let RAIO_REFERENCIA_FIXO = 0; 
+
+let timeLeft = 0; 
 let timerInterval = null;
 let gameStarted = false;
 
-// Elementos de UI
 let timerBox;
+let nivelAtual = 5;
+let mapaAtual = null;
+let limite_roteador = 0;
 
-const MAX_DEVICES = 2;
+function carregarMapa(mapa) {
+  mapaAtual = mapa;
 
-/**
- * Habilita arrastar (drag & drop) em um elemento .dispositivo
- */
+  const plantaContainer = document.querySelector(".planta-container");
 
-function mudarFase(fase) {
-  const body = document.querySelector('body');
+  let html = `<img src="${mapa.imagem}" class="planta-img" />`;
 
-  // Remove qualquer classe de fase anterior
-  body.classList.remove('fase-1', 'fase-2', 'fase-3');
+  mapa.areas.forEach((area, index) => {
+    html += `
+      <div class="filtro-area" 
+           id="area${index + 1}" 
+           data-nome="${area.nome}"
+           style="
+             top: ${area.top}; 
+             left: ${area.left}; 
+             width: ${area.width}; 
+             height: ${area.height};
+             ${area.clipPath ? `clip-path: ${area.clipPath};` : ""}
+           ">
+      </div>`;
+  });
 
-  // Adiciona a nova
-  body.classList.add(`fase-${fase}`);
+  plantaContainer.innerHTML = html;
+  const nivelHtml = document.getElementById("nivel");
+  nivelHtml.innerHTML = `<h1>${mapa.nome}</h1><p>${mapa.subnome}</p>`;
+
+  RAIO_REFERENCIA_FIXO = mapa.dificuldadeRaio;
+
+  document.querySelector('.planta-container').style.maxWidth = mapa.tamanho;
+
+
+  timeLeft = mapa.dificuldadeTempo;
+  const timerBoxx = document.getElementById("timerBox");
+  timerBoxx.innerHTML = `${timeLeft}s`;
+
+  limite_roteador = mapa.roteadores;
+  atualizarContadorRoteadores(); 
+  atualizarCoberturaGlobal(); 
+
 }
 
-
 function enableDrag(dispositivo) {
-  dispositivo.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    if (!gameStarted) startTimer();
-    const rect = dispositivo.getBoundingClientRect();
-    const shiftX = e.clientX - rect.left;
-    const shiftY = e.clientY - rect.top;
-
-    function moveAt(pageX, pageY) {
-      dispositivo.style.left = pageX - shiftX + "px";
-      dispositivo.style.top = pageY - shiftY + "px";
+  function startDrag(pageX, pageY, shiftX, shiftY) {
+    function moveAt(x, y) {
+      dispositivo.style.left = x - shiftX + "px";
+      dispositivo.style.top = y - shiftY + "px";
       atualizarCoberturaGlobal();
     }
 
     function onMouseMove(ev) {
       moveAt(ev.pageX, ev.pageY);
     }
-    document.addEventListener("mousemove", onMouseMove);
 
-    document.addEventListener("mouseup", function onMouseUp() {
+    function onTouchMove(ev) {
+      if (ev.touches.length > 0) {
+        moveAt(ev.touches[0].pageX, ev.touches[0].pageY);
+      }
+    }
+
+    function stopDrag() {
       document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    });
+      document.removeEventListener("mouseup", stopDrag);
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("touchend", stopDrag);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", stopDrag);
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
+    document.addEventListener("touchend", stopDrag);
+  }
+
+  dispositivo.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    if (!gameStarted) startTimer();
+    const rect = dispositivo.getBoundingClientRect();
+    const shiftX = e.clientX - rect.left;
+    const shiftY = e.clientY - rect.top;
+    startDrag(e.pageX, e.pageY, shiftX, shiftY);
   });
+
+  dispositivo.addEventListener("touchstart", (e) => {
+    if (!gameStarted) startTimer();
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const rect = dispositivo.getBoundingClientRect();
+      const shiftX = touch.clientX - rect.left;
+      const shiftY = touch.clientY - rect.top;
+      startDrag(touch.pageX, touch.pageY, shiftX, shiftY);
+      e.preventDefault(); // impede rolagem durante o arrasto
+    }
+  }, { passive: false });
 
   dispositivo.ondragstart = () => false;
 }
+
 
 function startTimer() {
   gameStarted = true;
@@ -70,67 +133,171 @@ function startTimer() {
   }, 1000);
 }
 
-/**
- * Recalcula a cor de cada filtro com base no dispositivo mais próximo e atualiza score
- */
-function atualizarCoberturaGlobal() {
-  const filtros = document.querySelectorAll(
-    ".filtro-area1, .filtro-area2, .filtro-area3, .filtro-area4, " +
-      ".filtro-area5, .filtro-area6, .filtro-area7, .filtro-area8, " +
-      ".filtro-area9, .filtro-area10"
-  );
-  const dispositivos = document.querySelectorAll(".dispositivo");
-
-  filtros.forEach((filtro) => {
-    const fr = filtro.getBoundingClientRect();
-    const cx = fr.left + fr.width / 2;
-    const cy = fr.top + fr.height / 2;
-
-    let menorDist = Infinity;
-    dispositivos.forEach((d) => {
-      const dr = d.getBoundingClientRect();
-      const dx = dr.left + dr.width / 2 - cx;
-      const dy = dr.top + dr.height / 2 - cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist < menorDist) menorDist = dist;
+/*    function atualizarCoberturaGlobal() {
+    const filtros = document.querySelectorAll(".filtro-area");
+    const dispositivos = document.querySelectorAll(".dispositivo");
+  
+    const grupoSomaDistancia = {};   
+    const grupoSomaArea = {};        
+    const grupoElementos = {};       
+  
+    // Forçar todos os filtros a começarem com a cor vermelha
+    filtros.forEach((filtro) => {
+      filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
     });
-
-    // Usa raio fixo para todos os filtros (uniforme)
-    if (menorDist <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
-      filtro.style.backgroundColor = "rgba(0,255,0,0.4)";
-    } else if (menorDist <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
-      filtro.style.backgroundColor = "rgba(255,255,0,0.4)";
-    } else {
-      filtro.style.backgroundColor = "rgba(255,0,0,0.4)";
+  
+    filtros.forEach((filtro) => {
+      const fr = filtro.getBoundingClientRect();
+      const cx = fr.left + fr.width / 2;
+      const cy = fr.top + fr.height / 2;
+      const nomeGrupo = filtro.dataset.nome.split("-")[0];
+  
+      const area = fr.width * fr.height;
+  
+      // Calcula menor distância até um dispositivo
+      let menorDist = Infinity;
+      dispositivos.forEach((d) => {
+        const dr = d.getBoundingClientRect();
+        const dx = dr.left + dr.width / 2 - cx;
+        const dy = dr.top + dr.height / 2 - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < menorDist) menorDist = dist;
+      });
+  
+      // Inicializa estruturas de agrupamento se necessário
+      if (!grupoSomaDistancia[nomeGrupo]) {
+        grupoSomaDistancia[nomeGrupo] = 0;
+        grupoSomaArea[nomeGrupo] = 0;
+        grupoElementos[nomeGrupo] = [];
+      }
+  
+      // Soma ponderada
+      grupoSomaDistancia[nomeGrupo] += menorDist * area;
+      grupoSomaArea[nomeGrupo] += area;
+      grupoElementos[nomeGrupo].push(filtro);
+    });
+  
+    // Aplica cor por grupo com base na média ponderada
+    Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+      const somaDist = grupoSomaDistancia[nomeGrupo];
+      const somaArea = grupoSomaArea[nomeGrupo];
+      const mediaDistPonderada = somaDist / somaArea;
+  
+      let cor;
+      if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(0,255,0,0.4)"; // Verde
+      } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(255,255,0,0.4)"; // Amarelo
+      } else {
+        cor = "rgba(255,0,0,0.4)"; // Vermelho
+      }
+  
+      // Aplica a cor no grupo de filtros
+      elementos.forEach((filtro) => {
+        filtro.style.backgroundColor = cor;
+      });
+    });
+  }  */
+  
+    function atualizarCoberturaGlobal() {
+      const filtros = document.querySelectorAll(".filtro-area");
+      const dispositivos = document.querySelectorAll(".dispositivo");
+    
+      const grupoSomaDistancia = {};   
+      const grupoSomaArea = {};        
+      const grupoElementos = {};       
+    
+      // Forçar todos os filtros a começarem com a cor vermelha
+      filtros.forEach((filtro) => {
+        filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
+      });
+    
+      filtros.forEach((filtro) => {
+        const fr = filtro.getBoundingClientRect();
+        const cx = fr.left + fr.width / 2;
+        const cy = fr.top + fr.height / 2;
+        const nomeGrupo = filtro.dataset.nome.split("-")[0];
+    
+        const area = fr.width * fr.height;
+    
+        // Calcula a menor distância entre o filtro e todos os dispositivos
+        let menorDist = Infinity;
+        dispositivos.forEach((d) => {
+          const dr = d.getBoundingClientRect();
+          const dx = dr.left + dr.width / 2 - cx;
+          const dy = dr.top + dr.height / 2 - cy;
+          const dist = Math.hypot(dx, dy);
+          
+          // Armazena a menor distância
+          if (dist < menorDist) {
+            menorDist = dist;
+          }
+        });
+    
+        // Inicializa as estruturas de agrupamento se necessário
+        if (!grupoSomaDistancia[nomeGrupo]) {
+          grupoSomaDistancia[nomeGrupo] = 0;
+          grupoSomaArea[nomeGrupo] = 0;
+          grupoElementos[nomeGrupo] = [];
+        }
+    
+        // Soma ponderada: distância mínima * área
+        grupoSomaDistancia[nomeGrupo] += menorDist * area;
+        grupoSomaArea[nomeGrupo] += area;
+        grupoElementos[nomeGrupo].push(filtro);
+      });
+    
+      // Aplica cor por grupo com base na média ponderada das distâncias
+      Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+        const somaDist = grupoSomaDistancia[nomeGrupo];
+        const somaArea = grupoSomaArea[nomeGrupo];
+        const mediaDistPonderada = somaDist / somaArea;
+    
+        let cor;
+        // Compara a média ponderada com os limites para determinar a cor
+        if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+          cor = "rgba(0,255,0,0.4)"; // Verde
+        } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+          cor = "rgba(255,255,0,0.4)"; // Amarelo
+        } else {
+          cor = "rgba(255,0,0,0.4)"; // Vermelho
+        }
+    
+        // Aplica a cor no grupo de filtros
+        elementos.forEach((filtro) => {
+          filtro.style.backgroundColor = cor;
+        });
+      });
     }
-  });
-}
-
+    
+    
 function validateAll() {
-  const filtros = document.querySelectorAll(
-    ".filtro-area1, .filtro-area2, .filtro-area3, .filtro-area4, " +
-      ".filtro-area5, .filtro-area6, .filtro-area7, .filtro-area8, " +
-      ".filtro-area9, .filtro-area10"
-  );
+  const filtros = document.querySelectorAll(".filtro-area");
   const total = filtros.length;
-  const greenCount = Array.from(filtros).filter((f) => {
-    const bg = window.getComputedStyle(f).backgroundColor;
+
+  const greenCount = Array.from(filtros).filter((filtro) => {
+    const bg = window.getComputedStyle(filtro).backgroundColor;
+    // Verifica se é verde (considerando qualquer formato de rgba/rgb)
     return bg.includes("0, 255, 0");
   }).length;
 
-  if (gameStarted == true) {
+  if (gameStarted) {
     mostrarNotificacao(greenCount, total);
   }
 }
 
-/**
- * Cria e adiciona um novo dispositivo (roteador) na planta
- */
+function atualizarContadorRoteadores() {
+  const container = document.querySelector(".editor");
+  const existingCount = container.querySelectorAll(".dispositivo").length;
+  const roteadoresDisponiveis = limite_roteador - existingCount;
+  const limite_roteador_tela = document.getElementById("roteadores-tela");
+  limite_roteador_tela.innerHTML = roteadoresDisponiveis;
+}
+
 function addDevice() {
   const container = document.querySelector(".editor");
   const existingCount = container.querySelectorAll(".dispositivo").length;
-  if (existingCount >= MAX_DEVICES) {
-    alert(`Limite de ${MAX_DEVICES} dispositivos atingido.`);
+  if (existingCount >= limite_roteador) {
     return;
   }
 
@@ -142,6 +309,10 @@ function addDevice() {
 
   const abrang = document.createElement("div");
   abrang.classList.add("abrangencia");
+  
+  if (mapaAtual?.abrangencia) {
+    atualizarAbrangencia(abrang, mapaAtual.abrangencia.width, mapaAtual.abrangencia.height);
+  }
   disp.appendChild(abrang);
 
   const img = document.createElement("img");
@@ -149,42 +320,59 @@ function addDevice() {
   img.alt = `Roteador-${count}`;
   disp.appendChild(img);
 
+
   container.appendChild(disp);
   enableDrag(disp);
   atualizarCoberturaGlobal();
-}
+  atualizarContadorRoteadores(); 
+} 
 
-// Inicialização após carregar a página
+
+  
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Obtém referência ao timer embutido no HTML
+
+  sortearMapa(nivelAtual);
+
   timerBox = document.getElementById("timerBox");
 
-  // Habilita drag para dispositivos já existentes
   document.querySelectorAll(".dispositivo").forEach(enableDrag);
 
-  // Configura botão de adicionar dispositivo
   document.getElementById("btnAddDevice").addEventListener("click", addDevice);
+
 
   const validateBtn = document.getElementById("btnValidate");
   if (validateBtn) validateBtn.addEventListener("click", validateAll);
-  // Primeira verificação de cobertura
+
   atualizarCoberturaGlobal();
 });
+
 
 function mostrarNotificacao(greenCount, total) {
   const notification = document.getElementById("notification");
 
   if (greenCount === total) {
-    notification.style.background = "#4caf50";
-    notification.innerHTML =
-      " <h2>🎉 Fase Concluída! 🎉</h2> <p>Parabéns! Você completou esta fase!</p>";
-    notification.classList.add("show");
-
-    setTimeout(() => {
-      notification.classList.remove("show");
-      // Aqui você pode carregar a próxima fase ou mudar a página
-      // window.location.href = "/";
-    }, 3000);
+    clearInterval(timerInterval);
+    gameStarted = false; 
+    if (nivelAtual >= 5) {
+      
+      window.location.href = "parabens.html";
+    }else{
+      
+      notification.style.background = "#4caf50";
+      notification.innerHTML =
+      ` <h2>🎉 Nível Concluído! 🎉</h2> <p>Parabéns! Você completou o ${nivelAtual}º Nível!</p>`;
+      notification.classList.add("show");
+      
+      setTimeout(() => {
+        notification.classList.remove("show");
+        const dispositivos = document.querySelectorAll(".dispositivo");
+        dispositivos.forEach((disp) => disp.remove());
+        nivelAtual++;
+        sortearMapa(nivelAtual);
+        
+      }, 3000);
+    };
   } else {
     if (timeLeft <= 0) {
       notification.style.background = "#ff0000cc";
@@ -193,11 +381,13 @@ function mostrarNotificacao(greenCount, total) {
       notification.classList.add("show");
       setTimeout(() => {
         notification.classList.remove("show");
+        window.location.href = "agradecimento.html";
+
       }, 3000);
     } else {
       notification.style.background = "#ecdd02cc";
       notification.innerHTML =
-        " <h2>⚠️ Fase Incompleta! ⚠️</h2> <p>Continue a tentativa ainda há tempo!</p>";
+        ` <h2>⚠️ Nível ${nivelAtual} Incompleto! ⚠️</h2> <p>Continue a tentativa ainda há ${timeLeft} segundos!</p>`;
       notification.classList.add("show");
       setTimeout(() => {
         notification.classList.remove("show");
@@ -205,3 +395,26 @@ function mostrarNotificacao(greenCount, total) {
     }
   }
 }
+
+function sortearMapa(numeroNivel) {
+  const chaveNivel = `nivel-${numeroNivel}`;
+  const mapasDoNivel = mapas[chaveNivel];
+
+  if (!mapasDoNivel || mapasDoNivel.length === 0) {
+    console.warn(`Nenhum mapa encontrado para o nível ${numeroNivel}`);
+    return;
+  }
+
+  const mapaSorteado = mapasDoNivel[Math.floor(Math.random() * mapasDoNivel.length)];
+  console.log(mapaSorteado);
+  carregarMapa(mapaSorteado);
+}
+
+function atualizarAbrangencia(elemento, width, height) {
+  if (!elemento) return;
+  elemento.style.width = width;
+  elemento.style.height = height;
+}
+
+
+document.addEventListener('contextmenu', event => event.preventDefault());
