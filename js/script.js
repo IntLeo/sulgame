@@ -1,14 +1,6 @@
 
 import { mapas } from './mapas.js';
 
-const mapasPorNivel = {
-  1: 4,
-  2: 4,
-  3: 4,
-  4: 4,
-  5: 3
-};
-
 const RAIO_FORTE_FACTOR = 0.55; //(verde)
 const RAIO_FRACO_FACTOR = 0.85; //(amarelo)
 let RAIO_REFERENCIA_FIXO = 0; 
@@ -18,7 +10,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 2;
+let nivelAtual = 5;
 let mapaAtual = null;
 let limite_roteador = 0;
 
