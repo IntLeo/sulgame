@@ -10,7 +10,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 1;
+let nivelAtual = 5;
 let mapaAtual = null;
 let limite_roteador = 0;
 
@@ -126,7 +126,7 @@ function startTimer() {
 }
 
 
-function atualizarCoberturaGlobal() {
+ function atualizarCoberturaGlobal() {
     const filtros = document.querySelectorAll(".filtro-area");
     const dispositivos = document.querySelectorAll(".dispositivo");
   
@@ -190,9 +190,10 @@ function atualizarCoberturaGlobal() {
         filtro.style.backgroundColor = cor;
       });
     });
-  }  
+  }   
 
 
+    
     
 function validateAll() {
   const filtros = document.querySelectorAll(".filtro-area");

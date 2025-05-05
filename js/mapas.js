@@ -104,7 +104,7 @@ const mapas = {
     {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
-      dificuldadeRaio: 0,
+      dificuldadeRaio: 520,
       dificuldadeTempo: 20,
       imagem: "../img/nivel-1/mapa-3.svg",
       roteadores: 1,
@@ -1503,17 +1503,17 @@ const mapas = {
     },
   ],
   "nivel-5": [
-    {
+     {
       nome: "Nível 5",
       subnome: "170m²+",
-      dificuldadeRaio: 417,
+      dificuldadeRaio: 320,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-5/mapa-1.svg",
-      roteadores: 5,
+      roteadores: 6,
       tamanho: "1600px",
       abrangencia: {
-        width: "480px",
-        height: "480px",
+        width: "380px",
+        height: "380px",
       },
       areas: [
         {
@@ -1769,19 +1769,19 @@ const mapas = {
           height: "31%",
         },
       ],
-    },
+    }, 
 
-    {
+     /* {
       nome: "Nível 5",
       subnome: "170m²+",
-      dificuldadeRaio: 400,
+      dificuldadeRaio: 320,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-5/mapa-2.svg",
       roteadores: 5,
       tamanho: "1200px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "380px",
+        height: "380px",
       },
       areas: [
         {
@@ -1911,8 +1911,10 @@ const mapas = {
           height: "9.4%",
         },
       ],
-    },
-    {
+    }, */
+    
+    
+   /*  {
       nome: "Nível 5",
       subnome: "170m²+",
       dificuldadeRaio: 300,
@@ -2157,7 +2159,7 @@ const mapas = {
           height: "8.5%",
         },
       ],
-    },
+    },  */
   ],
 };
 
