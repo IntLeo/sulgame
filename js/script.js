@@ -10,7 +10,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 5;
+let nivelAtual = 1;
 let mapaAtual = null;
 let limite_roteador = 0;
 
@@ -125,75 +125,79 @@ function startTimer() {
   }, 1000);
 }
 
+          function atualizarCoberturaGlobal() {
+            const filtros = document.querySelectorAll(".filtro-area");
+            const dispositivos = document.querySelectorAll(".dispositivo");
+          
+            const raioVerde = RAIO_REFERENCIA_FIXO * RAIO_FORTE_FACTOR;
+            const raioAmarelo = RAIO_REFERENCIA_FIXO * RAIO_FRACO_FACTOR;
+          
+            const grupos = {}; // { nomeBase: [filtro1, filtro2, ...] }
+          
+            // Agrupar áreas com mesmo nome-base (ex: sala, sala-recorte...)
+            filtros.forEach((filtro) => {
+              const nomeBase = filtro.dataset.nome.split("-")[0];
+              if (!grupos[nomeBase]) grupos[nomeBase] = [];
+              grupos[nomeBase].push(filtro);
+            });
+          
+            // Agora avaliamos cada grupo como um todo
+            Object.entries(grupos).forEach(([nomeGrupo, filtrosGrupo]) => {
+              let totalPontos = 0;
+              let totalVerdes = 0;
+              let totalAmarelos = 0;
+          
+              filtrosGrupo.forEach((filtro) => {
+                const fr = filtro.getBoundingClientRect();
+                const gridSize = 10; // 6x6 grid
+                const pontosTotais = gridSize * gridSize;
+          
+                totalPontos += pontosTotais;
+          
+                for (let i = 0; i < gridSize; i++) {
+                  for (let j = 0; j < gridSize; j++) {
+                    const px = fr.left + (fr.width / (gridSize + 1)) * (i + 1);
+                    const py = fr.top + (fr.height / (gridSize + 1)) * (j + 1);
+          
+                    let menorDist = Infinity;
+                    dispositivos.forEach((d) => {
+                      const dr = d.getBoundingClientRect();
+                      const dx = dr.left + dr.width / 2 - px;
+                      const dy = dr.top + dr.height / 2 - py;
+                      const dist = Math.hypot(dx, dy);
+                      if (dist < menorDist) menorDist = dist;
+                    });
+          
+                    if (menorDist <= raioVerde) {
+                      totalVerdes++;
+                    } else if (menorDist <= raioAmarelo) {
+                      totalAmarelos++;
+                    }
+                  }
+                }
+              });
+          
+              const percentVerde = (totalVerdes / totalPontos) * 100;
+              const percentAmarelo = ((totalVerdes + totalAmarelos) / totalPontos) * 100;
+          
+              let cor;
+              if (percentVerde >= 70) {
+                cor = "rgba(0,255,0,0.4)";
+              } else if (percentAmarelo >= 70) {
+                cor = "rgba(255,255,0,0.4)";
+              } else {
+                cor = "rgba(255,0,0,0.4)";
+              }
+          
+              // Aplica cor em todas as partes do grupo
+              filtrosGrupo.forEach((filtro) => {
+                filtro.style.backgroundColor = cor;
+              });
+            });
+          } 
+          
+       
 
- function atualizarCoberturaGlobal() {
-    const filtros = document.querySelectorAll(".filtro-area");
-    const dispositivos = document.querySelectorAll(".dispositivo");
-  
-    const grupoSomaDistancia = {};   
-    const grupoSomaArea = {};        
-    const grupoElementos = {};       
-  
-    // Forçar todos os filtros a começarem com a cor vermelha
-    filtros.forEach((filtro) => {
-      filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
-    });
-  
-    filtros.forEach((filtro) => {
-      const fr = filtro.getBoundingClientRect();
-      const cx = fr.left + fr.width / 2;
-      const cy = fr.top + fr.height / 2;
-      const nomeGrupo = filtro.dataset.nome.split("-")[0];
-  
-      const area = fr.width * fr.height;
-  
-      // Calcula menor distância até um dispositivo
-      let menorDist = Infinity;
-      dispositivos.forEach((d) => {
-        const dr = d.getBoundingClientRect();
-        const dx = dr.left + dr.width / 2 - cx;
-        const dy = dr.top + dr.height / 2 - cy;
-        const dist = Math.hypot(dx, dy);
-        if (dist < menorDist) menorDist = dist;
-      });
-  
-      // Inicializa estruturas de agrupamento se necessário
-      if (!grupoSomaDistancia[nomeGrupo]) {
-        grupoSomaDistancia[nomeGrupo] = 0;
-        grupoSomaArea[nomeGrupo] = 0;
-        grupoElementos[nomeGrupo] = [];
-      }
-  
-      // Soma ponderada
-      grupoSomaDistancia[nomeGrupo] += menorDist * area;
-      grupoSomaArea[nomeGrupo] += area;
-      grupoElementos[nomeGrupo].push(filtro);
-    });
-  
-    // Aplica cor por grupo com base na média ponderada
-    Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
-      const somaDist = grupoSomaDistancia[nomeGrupo];
-      const somaArea = grupoSomaArea[nomeGrupo];
-      const mediaDistPonderada = somaDist / somaArea;
-  
-      let cor;
-      if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
-        cor = "rgba(0,255,0,0.4)"; // Verde
-      } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
-        cor = "rgba(255,255,0,0.4)"; // Amarelo
-      } else {
-        cor = "rgba(255,0,0,0.4)"; // Vermelho
-      }
-  
-      // Aplica a cor no grupo de filtros
-      elementos.forEach((filtro) => {
-        filtro.style.backgroundColor = cor;
-      });
-    });
-  }   
-
-
-    
     
 function validateAll() {
   const filtros = document.querySelectorAll(".filtro-area");

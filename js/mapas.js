@@ -1,16 +1,17 @@
 const mapas = {
   "nivel-1": [
-    {
+    /*
+  {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
-      dificuldadeRaio: 520,
+      dificuldadeRaio: 400,
       dificuldadeTempo: 20,
       imagem: "../img/nivel-1/mapa-1.svg",
       roteadores: 1,
-      tamanho: "600px",
+      tamanho: "400px",
       abrangencia: {
-        width: "600px",
-        height: "600px",
+        width: "470px",
+        height: "470px",
       },
       areas: [
         {
@@ -42,18 +43,18 @@ const mapas = {
           height: "35.1%",
         },
       ],
-    },
+    }, */ 
     {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
-      dificuldadeRaio: 520,
+      dificuldadeRaio: 430,
       dificuldadeTempo: 20,
       imagem: "../img/nivel-1/mapa-2.svg",
       roteadores: 1,
-      tamanho: "1000px",
+      tamanho: "700px",
       abrangencia: {
-        width: "620px",
-        height: "620px",
+        width: "452px",
+        height: "420px",
       },
       areas: [
         {
@@ -74,7 +75,14 @@ const mapas = {
           nome: "sala",
           top: "2.2%",
           left: "54.2%",
-          width: "39%",
+          width: "20%",
+          height: "61.7%",
+        },
+        {
+          nome: "sala-dois",
+          top: "2.2%",
+          left: "74.2%",
+          width: "19%",
           height: "61.7%",
         },
         {
@@ -101,17 +109,18 @@ const mapas = {
         },
       ],
     },
-    {
+   
+      {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
-      dificuldadeRaio: 520,
+      dificuldadeRaio: 350,
       dificuldadeTempo: 20,
       imagem: "../img/nivel-1/mapa-3.svg",
       roteadores: 1,
-      tamanho: "1300px",
+      tamanho: "900px",
       abrangencia: {
-        width: "500px",
-        height: "500px",
+        width: "360px",
+        height: "360px",
       },
       areas: [
         {
@@ -144,17 +153,19 @@ const mapas = {
         },
       ],
     },
+    
+    
     {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
-      dificuldadeRaio: 390,
+      dificuldadeRaio: 370,
       dificuldadeTempo: 20,
       imagem: "../img/nivel-1/mapa-4.svg",
       roteadores: 1,
-      tamanho: "900px",
+      tamanho: "800px",
       abrangencia: {
-        width: "490px",
-        height: "490px",
+        width: "430px",
+        height: "430px",
       },
       areas: [
         {
@@ -179,20 +190,20 @@ const mapas = {
           height: "31.1%",
         },
       ],
-    },
+    },   
   ],
   "nivel-2": [
-    {
+       {
       nome: "Nível 2",
       subnome: "80m² - 100m²",
-      dificuldadeRaio: 390,
+      dificuldadeRaio: 430,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-2/mapa-1.svg",
       roteadores: 2,
-      tamanho: "900px",
+      tamanho: "800px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "380px",
+        height: "380px",
       },
       areas: [
         {
@@ -274,18 +285,19 @@ const mapas = {
           height: "31.8%",
         },
       ],
-    },
+    },  
+    
     {
       nome: "Nível 2",
       subnome: "80m² - 100m²",
-      dificuldadeRaio: 360,
+      dificuldadeRaio: 390,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-2/mapa-2.svg",
       roteadores: 2,
-      tamanho: "950px",
+      tamanho: "900px",
       abrangencia: {
-        width: "400px",
-        height: "400px",
+        width: "390px",
+        height: "390px",
       },
       areas: [
         {
@@ -354,24 +366,31 @@ const mapas = {
         {
           nome: "sala",
           top: "42.2%",
+          left: "79.3%",
+          width: "19.7%",
+          height: "55.3%",
+        },
+        {
+          nome: "sala-jantar",
+          top: "42.2%",
           left: "58.6%",
-          width: "40.3%",
+          width: "20.7%",
           height: "55.3%",
         },
       ],
-    },
+    }, 
 
-    {
+     {
       nome: "Nível 2",
       subnome: "80m² - 100m²",
       dificuldadeRaio: 380,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-2/mapa-3.svg",
       roteadores: 2,
-      tamanho: "900px",
+      tamanho: "800px",
       abrangencia: {
-        width: "470px",
-        height: "470px",
+        width: "380px",
+        height: "380px",
       },
       areas: [
         {
@@ -412,7 +431,7 @@ const mapas = {
         {
           nome: "dormitorio-angulo",
           top: "48.5%",
-          left: "18.1%",
+          left: "18.05%",
           width: "5.2%",
           height: "9.6%",
           clipPath: "polygon(0% 0%, 0% 100%, 100% 100%)",
@@ -426,15 +445,15 @@ const mapas = {
         },
         {
           nome: "cozinha-recorte",
-          top: "46.4%",
-          left: "24.2%",
+          top: "46.5%",
+          left: "24.25%",
           width: "6.9%",
           height: "1.4%",
         },
         {
           nome: "cozinha-angulo",
-          top: "46.4%",
-          left: "18.02%",
+          top: "46.5%",
+          left: "18.05%",
           width: "6.2%",
           height: "11%",
           clipPath: "polygon(0% 0%, 100% 0%, 100% 100%)",
@@ -459,14 +478,14 @@ const mapas = {
     {
       nome: "Nível 2",
       subnome: "80m² - 100m²",
-      dificuldadeRaio: 375,
+      dificuldadeRaio: 380,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-2/mapa-4.svg",
       roteadores: 2,
-      tamanho: "1200px",
+      tamanho: "1000px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "400px",
+        height: "400px",
       },
       areas: [
         {
@@ -547,34 +566,36 @@ const mapas = {
           height: "44.1%",
         },
       ],
-    },
+    },  
+    
   ],
   "nivel-3": [
+    
     {
       nome: "Nível 3",
       subnome: "100m² - 120m²",
-      dificuldadeRaio: 410,
+      dificuldadeRaio: 350,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-3/mapa-1.svg",
       roteadores: 2,
-      tamanho: "1100px",
+      tamanho: "800px",
       abrangencia: {
-        width: "490px",
-        height: "490px",
+        width: "350px",
+        height: "350px",
       },
       areas: [
         {
           nome: "sala",
           top: "55.8%",
-          left: "61.3%",
-          width: "30.3%",
-          height: "42.4%",
+          left: "71.5%",
+          width: "20.1%",
+          height: "11.5%",
         },
         {
           nome: "sala-recorte",
           top: "67.2%",
-          left: "91.6%",
-          width: "7.4%",
+          left: "71.5%",
+          width: "27.5%",
           height: "31%",
         },
         {
@@ -588,11 +609,11 @@ const mapas = {
           nome: "cozinha_1",
           top: "55.8%",
           left: "37.3%",
-          width: "24%",
+          width: "34.2%",
           height: "42.4%",
         },
         {
-          nome: "cozinha_1-2",
+          nome: "cozinha_1_2",
           top: "55.8%",
           left: "14.8%",
           width: "22.5%",
@@ -663,17 +684,17 @@ const mapas = {
         },
       ],
     },
-    {
+      {
       nome: "Nível 3",
       subnome: "100m² - 120m²",
-      dificuldadeRaio: 485,
+      dificuldadeRaio: 420,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-3/mapa-2.svg",
       roteadores: 2,
-      tamanho: "950px",
+      tamanho: "750px",
       abrangencia: {
-        width: "590px",
-        height: "590px",
+        width: "420px",
+        height: "420px",
       },
       areas: [
         {
@@ -790,17 +811,18 @@ const mapas = {
         },
       ],
     },
+    
     {
       nome: "Nível 3",
       subnome: "100m² - 120m²",
-      dificuldadeRaio: 400,
+      dificuldadeRaio: 345,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-3/mapa-3.svg",
       roteadores: 2,
-      tamanho: "1050px",
+      tamanho: "900px",
       abrangencia: {
-        width: "440px",
-        height: "440px",
+        width: "360px",
+        height: "360px",
       },
       areas: [
         {
@@ -931,17 +953,18 @@ const mapas = {
         },
       ],
     },
+    
     {
       nome: "Nível 3",
       subnome: "100m² - 120m²",
-      dificuldadeRaio: 430,
+      dificuldadeRaio: 390,
       dificuldadeTempo: 25,
       imagem: "../img/nivel-3/mapa-4.svg",
       roteadores: 2,
-      tamanho: "1000px",
+      tamanho: "800px",
       abrangencia: {
-        width: "480px",
-        height: "480px",
+        width: "400px",
+        height: "400px",
       },
       areas: [
         {
@@ -1022,20 +1045,21 @@ const mapas = {
           height: "43%",
         },
       ],
-    },
+    },  
   ],
   "nivel-4": [
+    
     {
       nome: "Nível 4",
       subnome: "120m² - 170m²",
-      dificuldadeRaio: 440,
+      dificuldadeRaio: 350,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-4/mapa-1.svg",
       roteadores: 3,
-      tamanho: "1100px",
+      tamanho: "800px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "330px",
+        height: "330px",
       },
       areas: [
         {
@@ -1145,17 +1169,18 @@ const mapas = {
         },
       ],
     },
+    
     {
       nome: "Nível 4",
       subnome: "120m² - 170m²",
-      dificuldadeRaio: 400,
+      dificuldadeRaio: 330,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-4/mapa-2.svg",
       roteadores: 3,
-      tamanho: "1200px",
+      tamanho: "870px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "340px",
+        height: "340px",
       },
       areas: [
         {
@@ -1255,14 +1280,14 @@ const mapas = {
     {
       nome: "Nível 4",
       subnome: "120m² - 170m²",
-      dificuldadeRaio: 400,
+      dificuldadeRaio: 360,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-4/mapa-3.svg",
       roteadores: 3,
-      tamanho: "1200px",
+      tamanho: "970px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "360px",
+        height: "360px",
       },
       areas: [
         {
@@ -1374,17 +1399,19 @@ const mapas = {
       ],
     },
 
+    
+
     {
       nome: "Nível 4",
       subnome: "120m² - 170m²",
-      dificuldadeRaio: 400,
+      dificuldadeRaio: 310,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-4/mapa-4.svg",
       roteadores: 4,
-      tamanho: "1600px",
+      tamanho: "1100px",
       abrangencia: {
-        width: "450px",
-        height: "450px",
+        width: "320px",
+        height: "320px",
       },
       areas: [
         {
@@ -1501,19 +1528,21 @@ const mapas = {
         },
       ],
     },
+    
   ],
   "nivel-5": [
+    
      {
       nome: "Nível 5",
       subnome: "170m²+",
-      dificuldadeRaio: 320,
+      dificuldadeRaio: 290,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-5/mapa-1.svg",
       roteadores: 6,
-      tamanho: "1600px",
+      tamanho: "1100px",
       abrangencia: {
-        width: "380px",
-        height: "380px",
+        width: "290px",
+        height: "290px",
       },
       areas: [
         {
@@ -1609,30 +1638,30 @@ const mapas = {
         },
         {
           nome: "sala_estar",
-          top: "1%",
+          top: "17.4%",
           left: "60.5%",
           width: "11.5%",
-          height: "27.5%",
+          height: "11%",
         },
         {
           nome: "sala_estar-recorte",
           top: "1%",
-          left: "72%",
-          width: "4.1%",
+          left: "60.5%",
+          width: "15.6%",
           height: "16.5%",
         },
         {
           nome: "sala_jantar",
-          top: "29.3%",
+          top: "37%",
           left: "52.5%",
           width: "19.5%",
-          height: "30.1%",
+          height: "22.4%",
         },
         {
           nome: "sala_jantar-recorte",
           top: "29.3%",
           left: "48.5%",
-          width: "4%",
+          width: "23.5%",
           height: "7.8%",
         },
         {
@@ -1640,7 +1669,7 @@ const mapas = {
           top: "59.4%",
           left: "52.5%",
           width: "19.5%",
-          height: "9.6%",
+          height: "9.5%",
         },
         {
           nome: "cozinha-recorte_2",
@@ -1737,8 +1766,15 @@ const mapas = {
           nome: "corredor",
           top: "29.3%",
           left: "13.44%",
-          width: "34.7%",
-          height: "8%",
+          width: "18%",
+          height: "7.8%",
+        },
+        {
+          nome: "corredor-recorte",
+          top: "29.3%",
+          left: "31.45%",
+          width: "16.8%",
+          height: "7.8%",
         },
         {
           nome: "ligamento",
@@ -1771,17 +1807,17 @@ const mapas = {
       ],
     }, 
 
-     /* {
+       {
       nome: "Nível 5",
       subnome: "170m²+",
-      dificuldadeRaio: 320,
+      dificuldadeRaio: 270,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-5/mapa-2.svg",
       roteadores: 5,
-      tamanho: "1200px",
+      tamanho: "800px",
       abrangencia: {
-        width: "380px",
-        height: "380px",
+        width: "270px",
+        height: "270px",
       },
       areas: [
         {
@@ -1911,20 +1947,20 @@ const mapas = {
           height: "9.4%",
         },
       ],
-    }, */
+    }, 
     
     
-   /*  {
+     {
       nome: "Nível 5",
       subnome: "170m²+",
-      dificuldadeRaio: 300,
+      dificuldadeRaio: 235,
       dificuldadeTempo: 30,
       imagem: "../img/nivel-5/mapa-3.svg",
-      roteadores: 5,
-      tamanho: "900px",
+      roteadores: 6,
+      tamanho: "700px",
       abrangencia: {
-        width: "370px",
-        height: "370px",
+        width: "250px",
+        height: "250px",
       },
       areas: [
         {
@@ -1932,27 +1968,27 @@ const mapas = {
           top: "0.5%",
           left: "0.4%",
           width: "9%",
-          height: "6.2%",
+          height: "6.3%",
         },
         {
           nome: "banheiro_2",
           top: "0.5%",
           left: "13.8%",
           width: "9%",
-          height: "6.2%",
+          height: "6.3%",
         },
         {
           nome: "despensa_1",
           top: "0.5%",
           left: "23.4%",
           width: "9%",
-          height: "6.2%",
+          height: "6.3%",
         },
         {
           nome: "academia",
           top: "7.5%",
           left: "0.4%",
-          width: "9%",
+          width: "9.1%",
           height: "34.4%",
         },
         {
@@ -1967,56 +2003,63 @@ const mapas = {
           top: "7.5%",
           left: "13.8%",
           width: "21.5%",
-          height: "34.4%",
+          height: "13%",
+        },
+        {
+          nome: "area_gourmet_descanso",
+          top: "20.5%",
+          left: "13.8%",
+          width: "21.5%",
+          height: "21.4%",
         },
         {
           nome: "area_gourmet-recorte1",
           top: "0%",
           left: "10%",
           width: "3.4%",
-          height: "7.2%",
+          height: "7.3%",
         },
         {
           nome: "area_gourmet-recorte2",
           top: "7.3%",
           left: "10%",
           width: "3.8%",
-          height: "3.7%",
+          height: "3.8%",
         },
         {
           nome: "area_gourmet-recorte3",
           top: "0%",
           left: "32.7%",
           width: "2.6%",
-          height: "7.4%",
+          height: "7.5%",
         },
         {
           nome: "lavanderia_1",
           top: "0.4%",
-          left: "35.9%",
-          width: "8.7%",
-          height: "9.2%",
+          left: "35.8%",
+          width: "8.8%",
+          height: "9.3%",
         },
         {
           nome: "despensa_2",
           top: "10%",
-          left: "35.9%",
-          width: "8.7%",
-          height: "5.5%",
+          left: "35.8%",
+          width: "8.8%",
+          height: "5.6%",
         },
         {
           nome: "banheiro_3",
           top: "0.4%",
           left: "51.8%",
           width: "9.3%",
-          height: "5.3%",
+          height: "5.4%",
         },
         {
           nome: "dormitorio_servico",
           top: "6.3%",
           left: "51.8%",
           width: "9.3%",
-          height: "9.1%",
+          height: "9.2%",
         },
         {
           nome: "cozinha-recorte",
@@ -2030,13 +2073,20 @@ const mapas = {
           top: "16%",
           left: "42.8%",
           width: "18.3%",
-          height: "28.2%",
+          height: "14%",
+        },
+        {
+          nome: "cozinha_corredor",
+          top: "30%",
+          left: "42.8%",
+          width: "18.3%",
+          height: "14.4%",
         },
         {
           nome: "corredor",
           top: "16%",
-          left: "35.9%",
-          width: "6.4%",
+          left: "35.8%",
+          width: "6.6%",
           height: "26.6%",
         },
         {
@@ -2044,14 +2094,14 @@ const mapas = {
           top: "35.8%",
           left: "61.5%",
           width: "4.3%",
-          height: "8.5%",
+          height: "8.6%",
         },
         {
           nome: "despensa_3",
           top: "35.8%",
           left: "66.3%",
           width: "4.1%",
-          height: "8.5%",
+          height: "8.6%",
         },
         {
           nome: "sala_jantar",
@@ -2072,7 +2122,7 @@ const mapas = {
           top: "42%",
           left: "78.9%",
           width: "11%",
-          height: "2.2%",
+          height: "2.4%",
         },
         {
           nome: "sala_jantar2",
@@ -2090,7 +2140,7 @@ const mapas = {
         },
         {
           nome: "sala_jantar2-recorte",
-          top: "78%",
+          top: "78.1%",
           left: "54.5%",
           width: "7.4%",
           height: "5.3%",
@@ -2105,44 +2155,44 @@ const mapas = {
         {
           nome: "escritorio",
           top: "60.2%",
-          left: "80%",
-          width: "9.7%",
+          left: "79.9%",
+          width: "9.8%",
           height: "18%",
         },
         {
           nome: "deposito",
-          top: "78.8%",
+          top: "78.7%",
           left: "46.7%",
           width: "7.4%",
-          height: "4.5%",
+          height: "4.6%",
         },
         {
           nome: "banheiro_5",
-          top: "84.1%",
+          top: "84%",
           left: "46.7%",
           width: "7.4%",
-          height: "7.8%",
+          height: "7.9%",
         },
         {
           nome: "closet",
-          top: "84.1%",
+          top: "84%",
           left: "54.6%",
           width: "7.2%",
-          height: "7.8%",
+          height: "7.9%",
         },
         {
           nome: "dormitorio",
-          top: "78.8%",
+          top: "78.6%",
           left: "62.3%",
           width: "10.5%",
-          height: "13.1%",
+          height: "13.3%",
         },
         {
           nome: "despensafora",
-          top: "78.8%",
+          top: "78.7%",
           left: "73.1%",
           width: "6.3%",
-          height: "13.2%",
+          height: "13.3%",
         },
         {
           nome: "festeiro",
@@ -2159,7 +2209,7 @@ const mapas = {
           height: "8.5%",
         },
       ],
-    },  */
+    },  
   ],
 };
 

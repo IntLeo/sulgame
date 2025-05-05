@@ -132,6 +132,389 @@ function startTimer() {
     }
   }, 1000);
 }
+/*             function atualizarCoberturaGlobal() {
+              const filtros = document.querySelectorAll(".filtro-area");
+              const dispositivos = document.querySelectorAll(".dispositivo");
+            
+              const grupoSomaDistancia = {};   
+              const grupoSomaArea = {};        
+              const grupoElementos = {};       
+            
+              // Forçar todos os filtros a começarem com a cor vermelha
+              filtros.forEach((filtro) => {
+                filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
+              });
+            
+              filtros.forEach((filtro) => {
+                const fr = filtro.getBoundingClientRect();
+                const cx = fr.left + fr.width / 2;
+                const cy = fr.top + fr.height / 2;
+                const nomeGrupo = filtro.dataset.nome.split("-")[0];
+            
+                const area = fr.width * fr.height;
+            
+                // Calcular o gridSize com base no tamanho da área
+                const gridSize = Math.max(6, Math.round(Math.sqrt(area) / 20)); // Aqui ajusta a densidade
+            
+                // Calcula menor distância até um dispositivo
+                let menorDist = Infinity;
+                dispositivos.forEach((d) => {
+                  const dr = d.getBoundingClientRect();
+                  const dx = dr.left + dr.width / 2 - cx;
+                  const dy = dr.top + dr.height / 2 - cy;
+                  const dist = Math.hypot(dx, dy);
+                  if (dist < menorDist) menorDist = dist;
+                });
+            
+                // Inicializa estruturas de agrupamento se necessário
+                if (!grupoSomaDistancia[nomeGrupo]) {
+                  grupoSomaDistancia[nomeGrupo] = 0;
+                  grupoSomaArea[nomeGrupo] = 0;
+                  grupoElementos[nomeGrupo] = [];
+                }
+            
+                // Soma ponderada com base na densidade do grid
+                grupoSomaDistancia[nomeGrupo] += menorDist * area;
+                grupoSomaArea[nomeGrupo] += area;
+                grupoElementos[nomeGrupo].push(filtro);
+              });
+            
+              // Aplica cor por grupo com base na média ponderada
+              Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+                const somaDist = grupoSomaDistancia[nomeGrupo];
+                const somaArea = grupoSomaArea[nomeGrupo];
+                const mediaDistPonderada = somaDist / somaArea;
+            
+                let cor;
+                if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+                  cor = "rgba(0,255,0,0.4)"; // Verde
+                } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+                  cor = "rgba(255,255,0,0.4)"; // Amarelo
+                } else {
+                  cor = "rgba(255,0,0,0.4)"; // Vermelho
+                }
+            
+                // Aplica a cor no grupo de filtros
+                elementos.forEach((filtro) => {
+                  filtro.style.backgroundColor = cor;
+                });
+              });
+            } */
+            
+/*               function atualizarCoberturaGlobal() {
+                const filtros = document.querySelectorAll(".filtro-area");
+                const dispositivos = document.querySelectorAll(".dispositivo");
+              
+                const grupoSomaDistancia = {};   
+                const grupoSomaArea = {};        
+                const grupoElementos = {};       
+              
+                // Forçar todos os filtros a começarem com a cor vermelha
+                filtros.forEach((filtro) => {
+                  filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
+                });
+              
+                filtros.forEach((filtro) => {
+                  const fr = filtro.getBoundingClientRect();
+                  const cx = fr.left + fr.width / 2;
+                  const cy = fr.top + fr.height / 2;
+                  const nomeGrupo = filtro.dataset.nome.split("-")[0];
+              
+                  const area = fr.width * fr.height;
+              
+                  // Calcular o gridSize com base no tamanho da área
+                  const gridSize = Math.max(6, Math.round(Math.sqrt(area) / 10)); // Aqui ajusta a densidade
+              
+                  let totalDistancia = 0;
+                  let totalArea = 0;
+              
+                  // Agora, para cada filtro, calculamos a soma de distâncias de todos os roteadores na área
+                  dispositivos.forEach((d) => {
+                    const dr = d.getBoundingClientRect();
+                    const dx = dr.left + dr.width / 2 - cx;
+                    const dy = dr.top + dr.height / 2 - cy;
+                    const dist = Math.hypot(dx, dy);
+              
+                    // Para cada roteador, somamos o valor da área coberta
+                    totalDistancia += dist * area;
+                    totalArea += area;
+                  });
+              
+                  // Inicializa estruturas de agrupamento se necessário
+                  if (!grupoSomaDistancia[nomeGrupo]) {
+                    grupoSomaDistancia[nomeGrupo] = 0;
+                    grupoSomaArea[nomeGrupo] = 0;
+                    grupoElementos[nomeGrupo] = [];
+                  }
+              
+                  // Soma ponderada de todos os roteadores que estão ajudando a cobrir a área
+                  grupoSomaDistancia[nomeGrupo] += totalDistancia;
+                  grupoSomaArea[nomeGrupo] += totalArea;
+                  grupoElementos[nomeGrupo].push(filtro);
+                });
+              
+                // Aplica cor por grupo com base na média ponderada
+                Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+                  const somaDist = grupoSomaDistancia[nomeGrupo];
+                  const somaArea = grupoSomaArea[nomeGrupo];
+                  const mediaDistPonderada = somaDist / somaArea;
+              
+                  let cor;
+                  if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+                    cor = "rgba(0,255,0,0.4)"; // Verde
+                  } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+                    cor = "rgba(255,255,0,0.4)"; // Amarelo
+                  } else {
+                    cor = "rgba(255,0,0,0.4)"; // Vermelho
+                  }
+              
+                  // Aplica a cor no grupo de filtros
+                  elementos.forEach((filtro) => {
+                    filtro.style.backgroundColor = cor;
+                  });
+                });
+              } */
+              
+
+/*                 function atualizarCoberturaGlobal() {
+                  const filtros = document.querySelectorAll(".filtro-area");
+                  const dispositivos = document.querySelectorAll(".dispositivo");
+                
+                  const grupoSomaDistancia = {};   
+                  const grupoSomaArea = {};        
+                  const grupoElementos = {};       
+                
+                  // Inicializando todos os filtros com a cor vermelha
+                  filtros.forEach((filtro) => {
+                    filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
+                  });
+                
+                  filtros.forEach((filtro) => {
+                    const fr = filtro.getBoundingClientRect();
+                    const cx = fr.left + fr.width / 2;
+                    const cy = fr.top + fr.height / 2;
+                    const nomeGrupo = filtro.dataset.nome.split("-")[0]; // Considera somente o nome antes do "-"
+                    
+                    const area = fr.width * fr.height;
+                
+                    // Calcular o gridSize com base no tamanho da área
+                    const gridSize = Math.max(6, Math.round(Math.sqrt(area) / 30)); // Ajuste de densidade
+                
+                    let totalDistancia = 0;
+                    let totalArea = 0;
+                    let roteadoresCobertura = 0; // Conta os roteadores que estão contribuindo para essa área
+                
+                    // Agora, para cada filtro, calculamos a soma de distâncias de todos os roteadores
+                    dispositivos.forEach((d) => {
+                      const dr = d.getBoundingClientRect();
+                      const dx = dr.left + dr.width / 2 - cx;
+                      const dy = dr.top + dr.height / 2 - cy;
+                      const dist = Math.hypot(dx, dy);
+                
+                      // Verifica se o roteador realmente influencia a cobertura do filtro
+                      if (dist <= RAIO_REFERENCIA_FIXO) {
+                        totalDistancia += dist * area; // Soma a distância ponderada
+                        totalArea += area; // Soma a área coberta
+                        roteadoresCobertura++; // Incrementa o número de roteadores ajudando
+                      }
+                    });
+                
+                    // Inicializa as estruturas de agrupamento se necessário
+                    if (!grupoSomaDistancia[nomeGrupo]) {
+                      grupoSomaDistancia[nomeGrupo] = 0;
+                      grupoSomaArea[nomeGrupo] = 0;
+                      grupoElementos[nomeGrupo] = [];
+                    }
+                
+                    // Soma ponderada de todos os roteadores que estão ajudando a cobrir a área
+                    grupoSomaDistancia[nomeGrupo] += totalDistancia;
+                    grupoSomaArea[nomeGrupo] += totalArea;
+                    grupoElementos[nomeGrupo].push(filtro);
+                  });
+                
+                  // Aplica a cor por grupo com base na média ponderada
+                  Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+                    const somaDist = grupoSomaDistancia[nomeGrupo];
+                    const somaArea = grupoSomaArea[nomeGrupo];
+                    const mediaDistPonderada = somaDist / somaArea;
+                
+                    let cor;
+                    if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+                      cor = "rgba(0,255,0,0.4)"; // Verde (cobertura boa)
+                    } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+                      cor = "rgba(255,255,0,0.4)"; // Amarelo (cobertura parcial)
+                    } else {
+                      cor = "rgba(255,0,0,0.4)"; // Vermelho (sem cobertura suficiente)
+                    }
+                
+                    // Aplica a cor no grupo de filtros
+                    elementos.forEach((filtro) => {
+                      filtro.style.backgroundColor = cor;
+                    });
+                  });
+                } */
+         
+/*  function atualizarCoberturaGlobal() {
+    const filtros = document.querySelectorAll(".filtro-area");
+    const dispositivos = document.querySelectorAll(".dispositivo");
+  
+    const grupoSomaDistancia = {};   
+    const grupoSomaArea = {};        
+    const grupoElementos = {};       
+  
+    // Forçar todos os filtros a começarem com a cor vermelha
+    filtros.forEach((filtro) => {
+      filtro.style.backgroundColor = "rgba(255,0,0,0.4)"; // Cor inicial vermelha
+    });
+  
+    filtros.forEach((filtro) => {
+      const fr = filtro.getBoundingClientRect();
+      const cx = fr.left + fr.width / 2;
+      const cy = fr.top + fr.height / 2;
+      const nomeGrupo = filtro.dataset.nome.split("-")[0];
+  
+      const area = fr.width * fr.height;
+  
+      // Calcula menor distância até um dispositivo
+      let menorDist = Infinity;
+      dispositivos.forEach((d) => {
+        const dr = d.getBoundingClientRect();
+        const dx = dr.left + dr.width / 2 - cx;
+        const dy = dr.top + dr.height / 2 - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < menorDist) menorDist = dist;
+      });
+  
+      // Inicializa estruturas de agrupamento se necessário
+      if (!grupoSomaDistancia[nomeGrupo]) {
+        grupoSomaDistancia[nomeGrupo] = 0;
+        grupoSomaArea[nomeGrupo] = 0;
+        grupoElementos[nomeGrupo] = [];
+      }
+  
+      // Soma ponderada
+      grupoSomaDistancia[nomeGrupo] += menorDist * area;
+      grupoSomaArea[nomeGrupo] += area;
+      grupoElementos[nomeGrupo].push(filtro);
+    });
+  
+    // Aplica cor por grupo com base na média ponderada
+    Object.entries(grupoElementos).forEach(([nomeGrupo, elementos]) => {
+      const somaDist = grupoSomaDistancia[nomeGrupo];
+      const somaArea = grupoSomaArea[nomeGrupo];
+      const mediaDistPonderada = somaDist / somaArea;
+  
+      let cor;
+      if (mediaDistPonderada <= RAIO_FORTE_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(0,255,0,0.4)"; // Verde
+      } else if (mediaDistPonderada <= RAIO_FRACO_FACTOR * RAIO_REFERENCIA_FIXO) {
+        cor = "rgba(255,255,0,0.4)"; // Amarelo
+      } else {
+        cor = "rgba(255,0,0,0.4)"; // Vermelho
+      }
+  
+      // Aplica a cor no grupo de filtros
+      elementos.forEach((filtro) => {
+        filtro.style.backgroundColor = cor;
+      });
+    });
+  }    */
+
+
+    /* codigo que deu meio certo */
+
+/*     function atualizarCoberturaGlobal() {
+      const filtros = document.querySelectorAll(".filtro-area");
+      const dispositivos = document.querySelectorAll(".dispositivo");
+    
+      filtros.forEach((filtro) => {
+        const fr = filtro.getBoundingClientRect();
+        const cx = fr.left + fr.width / 2;
+        const cy = fr.top + fr.height / 2;
+        const nomeGrupo = filtro.dataset.nome.split("-")[0];
+    
+        let cobertura = 0;
+    
+        dispositivos.forEach((d) => {
+          const dr = d.getBoundingClientRect();
+          const dx = dr.left + dr.width / 2 - cx;
+          const dy = dr.top + dr.height / 2 - cy;
+          const dist = Math.hypot(dx, dy);
+    
+          const influencia = dist === 0 ? 1 : 1 / (dist * dist); // Evita divisão por zero
+          cobertura += influencia;
+        });
+    
+        RAIO_REFERENCIA_FIXO = 500;
+
+        
+        // Normaliza a cobertura em relação a uma referência
+        const coberturaNormalizada = cobertura * 1000 / RAIO_REFERENCIA_FIXO;
+        console.log(coberturaNormalizada);
+    
+        let cor;
+        if (coberturaNormalizada >= 1) {
+          cor = "rgba(0,255,0,0.4)"; // Verde - cobertura forte
+        } else if (coberturaNormalizada >= 0.5) {
+          cor = "rgba(255,255,0,0.4)"; // Amarelo - cobertura fraca
+        } else {
+          cor = "rgba(255,0,0,0.4)"; // Vermelho - sem cobertura
+        }
+
+
+
+        filtro.style.backgroundColor = cor;
+      });
+    } */
+/*       function atualizarCoberturaGlobal() {
+        const filtros = document.querySelectorAll(".filtro-area");
+        const dispositivos = document.querySelectorAll(".dispositivo");
+      
+        const raioVerde = RAIO_REFERENCIA_FIXO * RAIO_FORTE_FACTOR;
+      
+        filtros.forEach((filtro) => {
+          const fr = filtro.getBoundingClientRect();
+          const pontosTotais = 25; // Número de pontos a verificar (5x5 grid, por exemplo)
+          let pontosCobertos = 0;
+      
+          for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+              const px = fr.left + (fr.width / 6) * (i + 1);
+              const py = fr.top + (fr.height / 6) * (j + 1);
+      
+              let coberto = false;
+              dispositivos.forEach((d) => {
+                const dr = d.getBoundingClientRect();
+                const dx = dr.left + dr.width / 2 - px;
+                const dy = dr.top + dr.height / 2 - py;
+                const dist = Math.hypot(dx, dy);
+      
+                if (dist <= raioVerde) {
+                  coberto = true;
+                }
+              });
+      
+              if (coberto) pontosCobertos++;
+            }
+          }
+      
+          const percentualCobertura = (pontosCobertos / pontosTotais) * 100;
+      
+          let cor;
+          if (percentualCobertura >= 70) {
+            cor = "rgba(0,255,0,0.4)"; // Verde
+          } else if (percentualCobertura >= 40) {
+            cor = "rgba(255,255,0,0.4)"; // Amarelo
+          } else {
+            cor = "rgba(255,0,0,0.4)"; // Vermelho
+          }
+      
+          filtro.style.backgroundColor = cor;
+        });
+      } */
+/*         function atualizarCoberturaGlobal() {
+
+
 
 /*    function atualizarCoberturaGlobal() {
     const filtros = document.querySelectorAll(".filtro-area");
