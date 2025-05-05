@@ -10,7 +10,7 @@ let timerInterval = null;
 let gameStarted = false;
 
 let timerBox;
-let nivelAtual = 5;
+let nivelAtual = 1;
 let mapaAtual = null;
 let limite_roteador = 0;
 
