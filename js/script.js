@@ -205,7 +205,6 @@ function validateAll() {
 
   const greenCount = Array.from(filtros).filter((filtro) => {
     const bg = window.getComputedStyle(filtro).backgroundColor;
-    // Verifica se é verde (considerando qualquer formato de rgba/rgb)
     return bg.includes("0, 255, 0");
   }).length;
 
