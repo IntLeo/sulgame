@@ -1,6 +1,6 @@
 const mapas = {
   "nivel-1": [
-    /*
+    
   {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
@@ -43,7 +43,7 @@ const mapas = {
           height: "35.1%",
         },
       ],
-    }, */ 
+    }, 
     {
       nome: "Nível 1",
       subnome: "60m² - 80m²",
