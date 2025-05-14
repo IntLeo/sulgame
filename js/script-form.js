@@ -209,9 +209,7 @@ function proximaPergunta() {
 
      
      document.getElementById("formCard").innerHTML = mensagem;
-     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${respostas[0]}m2 - ${qtdRoteadores}`;
-      
-  
+     const entradaDados = `${respostas[4]} - ${respostas[5]} - Anexo: ${respostas[3]} - Metragem: ${respostas[0]}m2 - Roteadores: ${qtdRoteadores}`;
       enviarDados(entradaDados, respostas[5]); 
       
     }, 4000);
