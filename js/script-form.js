@@ -209,7 +209,7 @@ function proximaPergunta() {
 
      
      document.getElementById("formCard").innerHTML = mensagem;
-     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${respostas[0]}m2 - ${qtdRoteadores}`;
+     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${qtdRoteadores}`;
       
      //Linha que envia os dados para o PHP a fim de criar a LEAD
       enviarDados(entradaDados, respostas[5]); 
