@@ -221,7 +221,7 @@ function proximaPergunta() {
 renderPergunta();
 
 function enviarDados(entradaDados, telefone) {
-  fetch("EnviaLead.php", {
+  /* fetch("EnviaLead.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -239,5 +239,31 @@ function enviarDados(entradaDados, telefone) {
     })
     .catch((error) => {
       console.error("Erro de rede:", error);
-    });
+    }); */
+
+    fetch("EnviaLead.php", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: new URLSearchParams({
+    entradaDados: entradaDados,
+    telefone: telefone,
+  }),
+})
+  .then((response) =>
+    response.text().then((text) => {
+      if (response.ok) {
+        console.log("Sucesso:", text);
+      } else {
+        console.error("Erro HTTP:", response.status);
+        console.error("Mensagem do servidor:", text);
+      }
+    })
+  )
+  .catch((error) => {
+    console.error("Erro de rede:", error);
+  });
+
+  
 }
