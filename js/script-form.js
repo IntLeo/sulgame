@@ -17,7 +17,7 @@ const perguntas = [
     texto: "Você utiliza internet para quais finalidades principais?",
     pergunta: "(Selecione no máximo 2)",
     tipo: "checkbox",
-    opcoes: ["Assistir filmes e séries", "Trabalho", "Estudo", "Informação"],
+    opcoes: ["Assistir filmes/séries", "Trabalhar", "Estudar", "Informar"],
   },
   {
     titulo: "PERGUNTA 4",
@@ -153,20 +153,29 @@ function proximaPergunta() {
       let redeIdeal = "";
       
       let qtdRoteadores = 1;
-      if (metragem > 80) {
-        qtdRoteadores = 1 + Math.ceil((metragem - 80) / 50);
+      if (metragem > 70) {
+        qtdRoteadores = 1 + Math.ceil((metragem - 70) / 60);
       }
 
     
-      const finalidade = usos.join(" e ").toLowerCase();
+      let finalidade = usos.map(u => u.toLowerCase());
+      if (finalidade.length === 1 && finalidade[0] === "informar") {
+        finalidade = "se informar";
+      } else if (finalidade.includes("informar") && finalidade.length > 1) {
+        const ultima = finalidade.pop();
+        finalidade = `${finalidade.join(" e ")} e se ${ultima}`;
+      } else {
+        finalidade = finalidade.join(" e ");
+      }
+      
       if (anexo == "Sim") {
         qtdRoteadores++;
       }
 
       if(qtdRoteadores === 1){
-        redeIdeal = "1 ROTEADOR";
+        redeIdeal = "[1 ROTEADOR]";
       }else{
-        redeIdeal = `${qtdRoteadores} ROTEADORES EM MESH`;
+        redeIdeal = `[700 MEGA COM ${qtdRoteadores} ROTEADORES EM MESH]`;
       }
 
       let mensagem = ``;
@@ -175,25 +184,34 @@ function proximaPergunta() {
 
         mensagem = `
             <h1>${nome},</h1>
-          <p>Para sua casa estar sempre conectada e você <strong>${finalidade}</strong>sem interrupções, a rede ideal para você é <strong>${redeIdeal}.</strong></p>
-          <p>A Sulnet tem o plano perfeito pra você e ainda com uma condição especial: Garantindo seu <strong>plano personalizado</strong> entre os dias <strong>16 e 25 de maio</strong>, você ganha o <strong>segundo roteador</strong> totalmente de graça pelos primeiros 6 meses.</p>
-          <p>Todos os ambientes da sua casa conectados, com economia e estabilidade - mas é por tempo limitado.</p>
-          <p>Bora aproveitar?</p>
+          <p>Para sua casa estar sempre conectada e você <strong>${finalidade}</strong> sem interrupções, a rede ideal para você é <strong>${redeIdeal}.</strong></p>
+          <p>A Sulnet tem o plano perfeito pra você: <strong>700 MEGA por R$119,90</strong></p>
+          <p>Em breve, um de nossos vendedores entrará em contato para te ajudar a garantir seu plano agora mesmo!</p>
+          <p>Com a Sulnet, conecte todos os ambientes da sua casa com economia e estabilidade!</p>
         `;
-      } else {
+      } else if (qtdRoteadores == 2) {
         mensagem = `
             <h1>${nome},</h1>
-          <p>Para sua casa estar sempre conectada e você <strong>${finalidade}</strong>sem interrupções, a rede ideal para você é <strong>${redeIdeal}.</strong></p>
-          <p>A Sulnet tem o plano perfeito pra você e ainda com uma condição especial: Garantindo seu <strong>plano personalizado</strong> entre os dias <strong>16 e 25 de maio</strong>, você ganha um <strong>roteador extra de graça</strong> pelos primeiros 6 meses.</p>
-          <p>Todos os ambientes da sua casa conectados, com economia e estabilidade - mas é por tempo limitado.</p>
-          <p>Bora aproveitar?</p>
+          <p>Para sua casa estar sempre conectada e você <strong>${finalidade} </strong>sem interrupções, a rede ideal para você é <strong>${redeIdeal}.</strong></p>
+          <p>A Sulnet tem o plano perfeito pra você e ainda com uma condição especial: Assinando sua <strong>rede personalizada</strong> entre os dias <strong>16 e 25 de maio</strong>, você ganha o <strong>segundo roteador</strong> totalmente de graça pelos primeiros 6 meses.</p>
+          <p>Em breve, um de nossos vendedores entrará em contato para te ajudar a garantir seu plano especial!</p>
+          <p>Com a Sulnet, conecte todos os ambientes da sua casa com economia e estabilidade!</p>
         `;
-      } 
+      } else {
+              mensagem = `
+            <h1>${nome},</h1>
+          <p>Para sua casa estar sempre conectada e você <strong>${finalidade} </strong>sem interrupções, a rede ideal para você é <strong>${redeIdeal}.</strong></p>
+          <p>A Sulnet tem o plano perfeito pra você e ainda com uma condição especial: Assinando sua <strong>rede personalizada</strong> entre os dias <strong>16 e 25 de maio</strong>, você ganha um dos<strong> roteadorres adicionais</strong> totalmente de graça pelos primeiros 6 meses.</p>
+          <p>Em breve, um de nossos vendedores entrará em contato para te ajudar a garantir seu plano especial!</p>
+          <p>Com a Sulnet, conecte todos os ambientes da sua casa com economia e estabilidade!</p>
+        `;
+      }
 
      
      document.getElementById("formCard").innerHTML = mensagem;
-     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[0]}m2 - Anexo: ${respostas[3]}`;
-     
+     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${respostas[0]}m2 - ${qtdRoteadores}`;
+
+      console.log(entradaDados);
       /* 
       Linha que envia os dados para o PHP a fim de criar a LEAD
       enviarDados(entradaDados, respostas[5]); 

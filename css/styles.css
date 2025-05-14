@@ -29,7 +29,7 @@ body {
   border-radius: 10px;
   padding: 16px 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+  max-width: 450px;
   width: 100%;
   animation: zoomIn 0.5s ease;
 }
@@ -50,12 +50,12 @@ body {
 
 /* QR code */
 .qr-code {
-  margin-top: 10px;
   display: block;
   pointer-events: none;
 }
 
 .logo img {
+  margin-top: -20px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
