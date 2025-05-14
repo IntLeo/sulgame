@@ -221,7 +221,7 @@ function proximaPergunta() {
 renderPergunta();
 
 function enviarDados(entradaDados, telefone) {
-  fetch("/php/EnviaLead.php", {
+  fetch("EnviaLead.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
