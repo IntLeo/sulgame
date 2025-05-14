@@ -241,7 +241,7 @@ function enviarDados(entradaDados, telefone) {
       console.error("Erro de rede:", error);
     }); */
 
-    fetch("EnviaLead.php", {
+    fetch("js/EnviaLead.php", {
   method: "POST",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -265,5 +265,4 @@ function enviarDados(entradaDados, telefone) {
     console.error("Erro de rede:", error);
   });
 
-  
 }
