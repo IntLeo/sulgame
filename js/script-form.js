@@ -209,9 +209,9 @@ function proximaPergunta() {
 
      
      document.getElementById("formCard").innerHTML = mensagem;
-     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${qtdRoteadores}`;
+     const entradaDados = `${respostas[4]} - ${respostas[5]} - ${respostas[3]} - ${respostas[0]}m2 - ${qtdRoteadores}`;
       
-     //Linha que envia os dados para o PHP a fim de criar a LEAD
+  
       enviarDados(entradaDados, respostas[5]); 
       
     }, 4000);
@@ -221,7 +221,7 @@ function proximaPergunta() {
 renderPergunta();
 
 function enviarDados(entradaDados, telefone) {
-  /* fetch("EnviaLead.php", {
+    fetch("php/EnviaLead.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -239,30 +239,5 @@ function enviarDados(entradaDados, telefone) {
     })
     .catch((error) => {
       console.error("Erro de rede:", error);
-    }); */
-
-    fetch("js/EnviaLead.php", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    entradaDados: entradaDados,
-    telefone: telefone,
-  }),
-})
-  .then((response) =>
-    response.text().then((text) => {
-      if (response.ok) {
-        console.log("Sucesso:", text);
-      } else {
-        console.error("Erro HTTP:", response.status);
-        console.error("Mensagem do servidor:", text);
-      }
-    })
-  )
-  .catch((error) => {
-    console.error("Erro de rede:", error);
-  });
-
+    }); 
 }

@@ -1,6 +1,4 @@
 <?php
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $entradaDados = $_POST['entradaDados'] ?? '';
